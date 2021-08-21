@@ -30,11 +30,18 @@ public class Game extends BaseTimeEntity {
     @Column(columnDefinition = "TEXT")
     private String content;
 
+    @Column(nullable = false)
+    private Boolean is_win;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_type_id")
     private GameType gameType;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "club_id")
-    private Club club;
+    @JoinColumn(name = "host_club_id")
+    private Club host_club;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "participants_club_id")
+    private Club participants_club;
 }
