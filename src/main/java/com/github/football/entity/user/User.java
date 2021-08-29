@@ -6,6 +6,7 @@ import com.github.football.entity.club.ClubExecutive;
 import com.github.football.entity.code.Area;
 import com.github.football.entity.code.Gender;
 import com.github.football.entity.code.Position;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -25,13 +26,13 @@ public class User {
     @Column(length = 80, nullable = false, unique = true)
     private String email;
 
-    @Column(length = 16, nullable = false, unique = true)
+    @Column(length = 16, nullable = false)
     private String name;
 
     @Column(length = 150, nullable = false)
     private String profile;
 
-    @Column(nullable = false)
+    @Column()
     private Integer age;
 
     @OneToOne(mappedBy = "clubExecutiveId.user")
@@ -41,18 +42,25 @@ public class User {
     private List<Application> applications = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "club_id", nullable = false)
+    @JoinColumn(name = "club_id")
     private Club club;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "position_id", nullable = false)
+    @JoinColumn(name = "position_id")
     private Position position;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "area_id", nullable = false)
+    @JoinColumn(name = "area_id")
     private Area area;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gender_id", nullable = false)
+    @JoinColumn(name = "gender_id")
     private Gender gender;
+
+    @Builder
+    public User(String email, String profile, String name) {
+        this.email = email;
+        this.profile = profile;
+        this.name = name;
+    }
 }
