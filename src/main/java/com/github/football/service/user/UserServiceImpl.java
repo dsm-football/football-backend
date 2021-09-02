@@ -4,6 +4,7 @@ import com.github.football.dto.user.response.LinkResponse;
 import com.github.football.dto.user.response.TokenResponse;
 import com.github.football.entity.user.User;
 import com.github.football.entity.user.UserRepository;
+import com.github.football.exception.UserNotFoundException;
 import com.github.football.security.jwt.JwtTokenProvider;
 import com.github.football.util.api.client.google.GoogleAuthClient;
 import com.github.football.util.api.client.google.GoogleInfoClient;
@@ -70,9 +71,8 @@ public class UserServiceImpl implements UserService {
             );
         }
 
-        //todo exception 처리
         Long userId = userRepository.findByEmail(email)
-                .orElseThrow().getId();
+                .orElseThrow(UserNotFoundException::new).getId();
 
         return getToken(userId);
     }
