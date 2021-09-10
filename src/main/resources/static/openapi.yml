@@ -1,0 +1,64 @@
+openapi: 3.0.3
+info:
+  title: Football Service
+  description: Football Service Backend API Specification
+  contact:
+    name: API Support
+    email: thscorjs1002@naver.com
+  version: 0.0.1
+servers:
+  - url: 'http://localhost:8080'
+    description: localhost server
+tags:
+  - name: users
+    description: 유저 관련 API
+  - name: club
+    description: 동호회 관련 API
+
+paths:
+  '/users/auth/google':
+    get:
+      tags:
+        - users
+      summary: "구글 Oauth 로그인 링크 조회"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  link:
+                    example: "https://accounts.google.com/o/oauth2/v2/auth?client_id=436549750929-4pepqro96c8s3sn3a35l84rpeir3brt2.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&response_type=code&access_type=offline&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fauth%2Fgoogle"
+    post:
+      tags:
+        - users
+      summary: "구글 code로 access token 발급받기"
+      parameters:
+        - $ref: '#/components/parameters/code'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
+                  refresh_token:
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
+
+components:
+  parameters:
+    code:
+      in: query
+      name: code
+      required: true
+      schema:
+        type: string
+        properties:
+          code:
+            description: "구글에서 받은 code"
+            example: "4%2F0AX4XfWiSdMoZzQlu4Rv0P0LieBeFXyp72u321aQWqbFJIbB8nVwdqipXr03o-nbEYiItj1-gw"
