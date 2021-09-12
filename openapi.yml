@@ -7,8 +7,8 @@ info:
     email: thscorjs1002@naver.com
   version: 0.0.1
 servers:
-  - url: 'http://localhost:8080'
-    description: localhost server
+  - url: 'http://3.34.43.216:8080/api'
+    description: production server
 tags:
   - name: users
     description: 유저 관련 API
@@ -49,16 +49,92 @@ paths:
                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
                   refresh_token:
                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
+  '/club':
+    post:
+      tags:
+        - club
+      summary: "동호회 개설"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              writeOnly: true
+              properties:
+                name:
+                  $ref: '#/components/parameters/name'
+                description:
+                  $ref: '#/components/parameters/description'
+                main_profile:
+                  $ref: '#/components/parameters/main_profile'
+                sub_profile:
+                  $ref: '#/components/parameters/sub_profile'
+                area_code:
+                  $ref: '#/components/parameters/area_code'
+                cycle_code:
+                  $ref: '#/components/parameters/cycle_code'
+                gender_code:
+                  $ref: '#/components/parameters/gender_code'
+      responses:
+        201:
+          description: 동호회 개설 성공
+        401:
+          $ref: '#/components/responses/CredentialsNotFoundException'
+        404:
+          $ref: '#/components/responses/CodeNotFoundException'
 
 components:
   parameters:
     code:
       in: query
       name: code
-      required: true
       schema:
         type: string
         properties:
           code:
             description: "구글에서 받은 code"
             example: "4%2F0AX4XfWiSdMoZzQlu4Rv0P0LieBeFXyp72u321aQWqbFJIbB8nVwdqipXr03o-nbEYiItj1-gw"
+    name:
+      name: name
+      in: path
+      required: true
+      example: FC동네축구
+    description:
+      name: description
+      in: path
+      required: true
+      example: 동네축구 동호회입니다 ㅎㅎ
+    main_profile:
+      name: main_profile
+      in: path
+      required: true
+      example: profile.com
+    sub_profile:
+      name: sub_profile
+      in: path
+      required: true
+      example: sub-profile.com
+    area_code:
+      name: area_code
+      in: path
+      required: true
+      example: 1
+      description: notion 더미데이터 참고
+    cycle_code:
+      name: cycle_code
+      in: path
+      required: true
+      example: 1
+      description: notion 더미데이터 참고
+    gender_code:
+      name: gender_code
+      in: path
+      required: true
+      example: 1
+      description: notion 더미데이터 참고
+
+  responses:
+    CredentialsNotFoundException:
+      description: 인증 오류
+    CodeNotFoundException:
+      description: 코드를 찾을 수 없음
