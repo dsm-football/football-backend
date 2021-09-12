@@ -4,7 +4,7 @@ import com.github.football.dto.user.response.LinkResponse;
 import com.github.football.dto.user.response.TokenResponse;
 import com.github.football.entity.user.User;
 import com.github.football.entity.user.UserRepository;
-import com.github.football.exception.UserNotFoundException;
+import com.github.football.exception.type.UserNotFoundException;
 import com.github.football.security.jwt.JwtTokenProvider;
 import com.github.football.util.api.client.google.GoogleAuthClient;
 import com.github.football.util.api.client.google.GoogleInfoClient;
@@ -57,7 +57,6 @@ public class UserServiceImpl implements UserService {
                         googleClientId, googleClientSecret, googleRedirectUri, "authorization_code")
         );
 
-        System.out.println(response.getAccess_token());
         GoogleInfoResponse info = googleInfoClient.getInfo("Bearer" + response.getAccess_token());
         String email = info.getEmail();
 
@@ -71,15 +70,12 @@ public class UserServiceImpl implements UserService {
             );
         }
 
-        Long userId = userRepository.findByEmail(email)
-                .orElseThrow(UserNotFoundException::new).getId();
-
-        return getToken(userId);
+        return getToken(email);
     }
 
-    private TokenResponse getToken(Long userId) {
-        String accessToken = jwtTokenProvider.generateAccessToken(userId);
-        String refreshToken = jwtTokenProvider.generateRefreshToken(userId);
+    private TokenResponse getToken(String email) {
+        String accessToken = jwtTokenProvider.generateAccessToken(email);
+        String refreshToken = jwtTokenProvider.generateRefreshToken(email);
 
         return new TokenResponse(accessToken, refreshToken);
     }
