@@ -5,6 +5,7 @@ import com.github.football.entity.code.Area;
 import com.github.football.entity.code.Cycle;
 import com.github.football.entity.code.Gender;
 import com.github.football.entity.user.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -39,6 +40,10 @@ public class Club {
     @OneToOne(mappedBy = "club_id")
     private ClubApplicant clubApplicant;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "club_head")
+    private User clubHead;
+
     @OneToMany(mappedBy = "club")
     private List<User> users = new ArrayList<>();
 
@@ -56,4 +61,16 @@ public class Club {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "gender_id", nullable = false)
     private Gender gender;
+
+    @Builder
+    public Club(String main_profile, String sub_profile, String name, String description, User clubHead, Area area, Cycle cycle, Gender gender) {
+        this.main_profile = main_profile;
+        this.sub_profile = sub_profile;
+        this.name = name;
+        this.description = description;
+        this.clubHead = clubHead;
+        this.area = area;
+        this.cycle = cycle;
+        this.gender = gender;
+    }
 }
