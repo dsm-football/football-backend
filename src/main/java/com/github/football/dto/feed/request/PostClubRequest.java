@@ -14,4 +14,5 @@ public class PostClubRequest {
     private int areaCode;
     private int cycleCode;
     private int genderCode;
+    private int ageGroupCode;
 }
