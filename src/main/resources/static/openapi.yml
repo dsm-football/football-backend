@@ -75,6 +75,8 @@ paths:
                   $ref: '#/components/parameters/cycle_code'
                 gender_code:
                   $ref: '#/components/parameters/gender_code'
+                age_group_code:
+                  $ref: '#/components/parameters/age_group_code'
       responses:
         201:
           description: 동호회 개설 성공
@@ -128,6 +130,12 @@ components:
       description: notion 더미데이터 참고
     gender_code:
       name: gender_code
+      in: path
+      required: true
+      example: 1
+      description: notion 더미데이터 참고
+    age_group_code:
+      name: age_group_code
       in: path
       required: true
       example: 1
