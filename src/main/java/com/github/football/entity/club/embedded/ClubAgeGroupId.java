@@ -2,6 +2,7 @@ package com.github.football.entity.club.embedded;
 
 import com.github.football.entity.club.Club;
 import com.github.football.entity.code.AgeGroup;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -10,8 +11,9 @@ import java.io.Serializable;
 
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 @Embeddable
-public class ClubHasAgeGroupId implements Serializable {
+public class ClubAgeGroupId implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
