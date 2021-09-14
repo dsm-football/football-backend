@@ -101,4 +101,8 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public void joinClub(Club club) {
+        this.club = club;
+    }
 }

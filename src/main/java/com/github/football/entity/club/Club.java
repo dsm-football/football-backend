@@ -44,10 +44,10 @@ public class Club {
     @JoinColumn(name = "club_head")
     private User clubHead;
 
-    @OneToMany(mappedBy = "club")
+    @OneToMany(mappedBy = "club", cascade = CascadeType.PERSIST)
     private List<User> users = new ArrayList<>();
 
-    @OneToMany(mappedBy = "clubExecutiveId.club")
+    @OneToMany(mappedBy = "clubExecutiveId.club", fetch = FetchType.LAZY)
     private List<ClubExecutive> clubExecutives = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
