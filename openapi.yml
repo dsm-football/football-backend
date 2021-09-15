@@ -80,6 +80,8 @@ paths:
       responses:
         201:
           description: 동호회 개설 성공
+        400:
+          $ref: '#/components/responses/AlreadyJoinedClubException'
         401:
           $ref: '#/components/responses/CredentialsNotFoundException'
         404:
@@ -146,3 +148,5 @@ components:
       description: 인증 오류
     CodeNotFoundException:
       description: 코드를 찾을 수 없음
+    AlreadyJoinedClubException:
+      description: 이미 클럽에 가입되어있음
