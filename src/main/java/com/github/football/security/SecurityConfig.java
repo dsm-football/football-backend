@@ -3,6 +3,7 @@ package com.github.football.security;
 import com.github.football.exception.ExceptionHandlerFilter;
 import com.github.football.security.jwt.FilterConfigure;
 import com.github.football.security.jwt.JwtTokenProvider;
+import com.github.football.security.logging.RequestLogger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -18,6 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final JwtTokenProvider jwtTokenProvider;
     private final ExceptionHandlerFilter exceptionHandlerFilter;
+    private final RequestLogger requestLogger;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -32,7 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.GET, "/swagger-ui.html").permitAll()
                 .antMatchers(HttpMethod.GET, "/users/auth/google").permitAll()
                 .antMatchers(HttpMethod.POST, "/users/auth/google").permitAll()
-                .anyRequest().permitAll()
-                .and().apply(new FilterConfigure(jwtTokenProvider, exceptionHandlerFilter));
+                .anyRequest().authenticated()
+                .and().apply(new FilterConfigure(jwtTokenProvider, exceptionHandlerFilter, requestLogger));
     }
 }

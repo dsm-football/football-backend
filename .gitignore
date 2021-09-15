@@ -38,3 +38,6 @@ out/
 
 ### Swagger ###
 gen
+
+### Logging ###
+log
