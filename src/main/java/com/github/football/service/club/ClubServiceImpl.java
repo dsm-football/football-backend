@@ -1,6 +1,10 @@
 package com.github.football.service.club;
 
-import com.github.football.dto.feed.request.PostClubRequest;
+import com.github.football.dto.club.request.PostClubRequest;
+import com.github.football.dto.club.request.ToggleApplicantRequest;
+import com.github.football.dto.club.response.ToggleApplicantResponse;
+import com.github.football.entity.application.ClubApplicant;
+import com.github.football.entity.application.ClubApplicantRepository;
 import com.github.football.entity.club.Club;
 import com.github.football.entity.club.ClubAge;
 import com.github.football.entity.club.ClubAgeRepository;
@@ -27,11 +31,11 @@ public class ClubServiceImpl implements ClubService {
     private final CycleRepository cycleRepository;
     private final GenderRepository genderRepository;
     private final AgeGroupRepository ageGroupRepository;
+    private final ClubApplicantRepository clubApplicantRepository;
 
-    @Transactional
     @Override
+    @Transactional
     public void postClub(PostClubRequest request) {
-
         if (clubRepository.findByName(request.getName()).isPresent())
             throw new AlreadyUsedNameException();
 
@@ -71,6 +75,30 @@ public class ClubServiceImpl implements ClubService {
                         .build()
         );
 
+        clubApplicantRepository.save(
+                ClubApplicant.builder()
+                        .club_id(club)
+                        .count(0)
+                        .is_open(false)
+                        .build()
+        );
+
         user.postClub(club);
+    }
+
+    @Override
+    @Transactional
+    public ToggleApplicantResponse toggleApplicant(ToggleApplicantRequest request) {
+        User user = userRepository.findByEmail(UserFacade.getEmail())
+                .orElseThrow(CredentialsNotFoundException::new);
+
+        if (user.getClub_executive() == null)
+            throw new ClubForbiddenException();
+
+        ClubApplicant clubApplicant = user.getClub().getClubApplicant();
+        int tempCount = request.count == 0 ? clubApplicant.getCount() : request.count;
+        Boolean is_open = clubApplicant.toggleApplicant(tempCount);
+
+        return new ToggleApplicantResponse(is_open);
     }
 }
