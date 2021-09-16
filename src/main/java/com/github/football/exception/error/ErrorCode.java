@@ -14,6 +14,7 @@ public enum ErrorCode {
     ALREADY_USED_NAME(400, "Already used name"),
     EXPIRED_ACCESS_TOKEN(401, "Expired access token"),
     CREDENTIALS_NOT_FOUND(401, "Credentials not found"),
+    CLUB_FORBIDDEN(403, "Club forbidden"),
     USER_NOT_FOUND(404, "User not found"),
     AREA_NOT_FOUND(404, "Area not found"),
     CYCLE_NOT_FOUND(404, "Cycle not found"),
