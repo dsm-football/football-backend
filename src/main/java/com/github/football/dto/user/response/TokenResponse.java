@@ -8,7 +8,6 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class TokenResponse {
 
     private final String accessToken;
