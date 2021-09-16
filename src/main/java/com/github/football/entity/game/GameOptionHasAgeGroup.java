@@ -1,6 +1,5 @@
 package com.github.football.entity.game;
 
-import com.github.football.entity.application.embedded.ClubApplicantHasAgeGroupId;
 import com.github.football.entity.game.embedded.GameOptionHasAgeGroupId;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
