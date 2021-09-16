@@ -2,7 +2,6 @@ package com.github.football.entity.user;
 
 import com.github.football.entity.application.Application;
 import com.github.football.entity.club.Club;
-import com.github.football.entity.club.ClubExecutive;
 import com.github.football.entity.code.Area;
 import com.github.football.entity.code.Gender;
 import com.github.football.entity.code.Position;
@@ -38,15 +37,16 @@ public class User implements UserDetails {
     @Column
     private Integer age;
 
-    @OneToOne(fetch = FetchType.LAZY, mappedBy = "clubExecutiveId.user")
-    private ClubExecutive clubExecutive;
-
     @OneToMany(mappedBy = "applicationId.user")
     private List<Application> applications = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
     private Club club;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "club_executive_id")
+    private Club club_executive;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "position_id")
@@ -102,7 +102,8 @@ public class User implements UserDetails {
         return true;
     }
 
-    public void joinClub(Club club) {
+    public void postClub(Club club) {
         this.club = club;
+        this.club_executive = club;
     }
 }

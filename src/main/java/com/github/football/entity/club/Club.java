@@ -47,8 +47,8 @@ public class Club {
     @OneToMany(mappedBy = "club", cascade = CascadeType.PERSIST)
     private List<User> users = new ArrayList<>();
 
-    @OneToMany(mappedBy = "clubExecutiveId.club", fetch = FetchType.LAZY)
-    private List<ClubExecutive> clubExecutives = new ArrayList<>();
+    @OneToMany(mappedBy = "club_executive")
+    private List<User> executiveUsers = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "area_id", nullable = false)

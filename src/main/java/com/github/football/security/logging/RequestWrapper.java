@@ -67,6 +67,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
 
             Map bodyMap = objectMapper.readValue(body, Map.class);
             body = objectMapper.writeValueAsString(bodyMap);
+            return body;
         } catch (JsonProcessingException ignored) {}
         return "{}";
     }

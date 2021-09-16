@@ -71,6 +71,6 @@ public class ClubServiceImpl implements ClubService {
                         .build()
         );
 
-        user.joinClub(club);
+        user.postClub(club);
     }
 }
