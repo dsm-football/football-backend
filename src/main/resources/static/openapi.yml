@@ -79,13 +79,34 @@ paths:
                   $ref: '#/components/parameters/age_group_code'
       responses:
         201:
-          description: 동호회 개설 성공
+          description: Created
         400:
           $ref: '#/components/responses/AlreadyJoinedClubException'
         401:
           $ref: '#/components/responses/CredentialsNotFoundException'
         404:
           $ref: '#/components/responses/CodeNotFoundException'
+  '/club/applicant':
+    post:
+      tags:
+        - club
+      summary: "동호회원 모집하기"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              writeOnly: true
+              properties:
+                count:
+                  $ref: '#/components/parameters/count'
+      responses:
+        200:
+          description: OK
+        401:
+          $ref: '#/components/responses/CredentialsNotFoundException'
+        403:
+          $ref: '#/components/responses/ClubForbiddenException'
 
 components:
   parameters:
@@ -142,6 +163,12 @@ components:
       required: true
       example: 1
       description: notion 더미데이터 참고
+    count:
+      name: count
+      in: path
+      required: true
+      example: 21
+      description: 모집할 인원 수
 
   responses:
     CredentialsNotFoundException:
@@ -150,3 +177,5 @@ components:
       description: 코드를 찾을 수 없음
     AlreadyJoinedClubException:
       description: 이미 클럽에 가입되어있음
+    ClubForbiddenException:
+      description: 클럽 관리자가 아님
