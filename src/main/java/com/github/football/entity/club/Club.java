@@ -37,7 +37,7 @@ public class Club {
     @Column(length = 150)
     private String sns;
 
-    @OneToOne(mappedBy = "club_id")
+    @OneToOne(mappedBy = "clubId")
     private ClubApplicant clubApplicant;
 
     @OneToOne(fetch = FetchType.LAZY)
