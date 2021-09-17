@@ -21,28 +21,28 @@ public class ClubApplicant {
     @MapsId
     @OneToOne
     @JoinColumn(name = "club_id")
-    private Club club_id;
+    private Club clubId;
 
     @Column(nullable = false)
     private Integer count;
 
-    @Column(nullable = false)
-    private Boolean is_open;
+    @Column(nullable = false, name = "is_open")
+    private Boolean isOpen;
 
     @OneToMany(mappedBy = "applicationId.clubApplicant")
     private List<Application> clubApplication = new ArrayList<>();
 
 
     @Builder
-    public ClubApplicant(Club club_id, Integer count, Boolean is_open) {
-        this.club_id = club_id;
+    public ClubApplicant(Club club_id, Integer count, Boolean isOpen) {
+        this.clubId = club_id;
         this.count = count;
-        this.is_open = is_open;
+        this.isOpen = isOpen;
     }
 
     public Boolean toggleApplicant(Integer count) {
         this.count = count;
-        this.is_open = !this.is_open;
-        return this.is_open;
+        this.isOpen = !this.isOpen;
+        return this.isOpen;
     }
 }
