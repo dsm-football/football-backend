@@ -1,6 +1,7 @@
 package com.github.football.entity.application;
 
 import com.github.football.entity.application.embedded.ApplicationId;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,4 +15,9 @@ public class Application {
 
     @EmbeddedId
     private ApplicationId applicationId;
+
+    @Builder
+    public Application(ApplicationId applicationId) {
+        this.applicationId = applicationId;
+    }
 }
