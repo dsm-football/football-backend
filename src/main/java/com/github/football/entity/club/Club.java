@@ -22,11 +22,11 @@ public class Club {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(length = 150, nullable = false)
-    private String main_profile;
+    @Column(length = 150, nullable = false, name = "main_profile")
+    private String mainProfile;
 
-    @Column(length = 150, nullable = false)
-    private String sub_profile;
+    @Column(length = 150, nullable = false, name = "sub_profile")
+    private String subProfile;
 
     @Column(length = 30, nullable = false, unique = true)
     private String name;
@@ -63,9 +63,9 @@ public class Club {
     private Gender gender;
 
     @Builder
-    public Club(String main_profile, String sub_profile, String name, String description, User clubHead, Area area, Cycle cycle, Gender gender) {
-        this.main_profile = main_profile;
-        this.sub_profile = sub_profile;
+    public Club(String mainProfile, String subProfile, String name, String description, User clubHead, Area area, Cycle cycle, Gender gender) {
+        this.mainProfile = mainProfile;
+        this.subProfile = subProfile;
         this.name = name;
         this.description = description;
         this.clubHead = clubHead;

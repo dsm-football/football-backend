@@ -3,6 +3,7 @@ package com.github.football.controller;
 import com.github.football.dto.club.request.PostClubRequest;
 import com.github.football.dto.club.request.ToggleApplicantRequest;
 import com.github.football.dto.club.response.GetClubApplicantResponse;
+import com.github.football.dto.club.response.GetClubResponse;
 import com.github.football.dto.club.response.ToggleApplicantResponse;
 import com.github.football.service.club.ClubService;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,11 @@ public class ClubController {
     @ResponseStatus(HttpStatus.CREATED)
     public void postClub(@RequestBody PostClubRequest request) {
         clubService.postClub(request);
+    }
+
+    @GetMapping("{id}")
+    public ResponseEntity<GetClubResponse> getClub(@PathVariable("id") Long id) {
+        return new ResponseEntity<>(clubService.getClub(id), HttpStatus.OK);
     }
 
     @PostMapping("/applicant")

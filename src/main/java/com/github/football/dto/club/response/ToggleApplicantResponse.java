@@ -6,5 +6,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public class ToggleApplicantResponse {
-    public Boolean applicant;
+
+    public Boolean isOpen;
 }

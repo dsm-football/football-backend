@@ -19,7 +19,8 @@ public enum ErrorCode {
     AREA_NOT_FOUND(404, "Area not found"),
     CYCLE_NOT_FOUND(404, "Cycle not found"),
     GENDER_NOT_FOUND(404, "Gender not found"),
-    AGE_GROUP_NOT_FOUND(404, "Age group not found");
+    AGE_GROUP_NOT_FOUND(404, "Age group not found"),
+    CLUB_NOT_FOUND(404, "Club not found");
 
     private final int status;
     private final String message;

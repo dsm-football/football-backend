@@ -3,6 +3,7 @@ package com.github.football.service.club;
 import com.github.football.dto.club.request.PostClubRequest;
 import com.github.football.dto.club.request.ToggleApplicantRequest;
 import com.github.football.dto.club.response.GetClubApplicantResponse;
+import com.github.football.dto.club.response.GetClubResponse;
 import com.github.football.dto.club.response.ToggleApplicantResponse;
 import com.github.football.entity.application.ClubApplicant;
 import com.github.football.entity.application.ClubApplicantRepository;
@@ -60,8 +61,8 @@ public class ClubServiceImpl implements ClubService {
 
         Club club = clubRepository.save(
                 Club.builder()
-                        .main_profile(request.getMainProfile())
-                        .sub_profile(request.getSubProfile())
+                        .mainProfile(request.getMainProfile())
+                        .subProfile(request.getSubProfile())
                         .name(request.getName())
                         .description(request.getDescription())
                         .area(area)
@@ -85,6 +86,15 @@ public class ClubServiceImpl implements ClubService {
         );
 
         user.postClub(club);
+    }
+
+    @Override
+    public GetClubResponse getClub(Long id) {
+        Club club = clubRepository.findById(id)
+                .orElseThrow(ClubNotFoundException::new);
+
+        return new GetClubResponse(club.getMainProfile(), club.getSubProfile(), club.getName(), club.getDescription(), club.getSns(),
+                club.getArea().getName(), club.getCycle().getName(), club.getGender().getName());
     }
 
     @Override
