@@ -3,6 +3,7 @@ package com.github.football.entity.application.embedded;
 import com.github.football.entity.application.ClubApplicant;
 import com.github.football.entity.club.Club;
 import com.github.football.entity.user.User;
+import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import java.io.Serializable;
 
 @EqualsAndHashCode
 @NoArgsConstructor
+@AllArgsConstructor
 @Embeddable
 public class ApplicationId implements Serializable {
 
