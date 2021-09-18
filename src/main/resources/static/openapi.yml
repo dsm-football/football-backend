@@ -88,6 +88,20 @@ paths:
           $ref: '#/components/responses/CredentialsNotFoundException'
         404:
           $ref: '#/components/responses/CodeNotFoundException'
+  '/club/{club_id}':
+    get:
+      tags:
+        - club
+      summary: "동호회 상세 정보"
+      parameters:
+        - $ref: '#/components/parameters/club_id'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetClub'
   '/club/applicant':
     post:
       tags:
@@ -107,6 +121,10 @@ paths:
       responses:
         200:
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToggleApplicant'
         401:
           $ref: '#/components/responses/CredentialsNotFoundException'
         403:
@@ -116,15 +134,18 @@ paths:
         - club
       summary: "동호회원 모집 확인"
       parameters:
-        - $ref: '#/component/parameters/authorization'
+        - $ref: '#/components/parameters/authorization'
       responses:
         200:
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetClubApplicant'
         401:
           $ref: '#/components/responses/CredentialsNotFoundException'
         403:
           $ref: '#/components/responses/ClubForbiddenException'
-
 
 components:
   parameters:
@@ -193,6 +214,62 @@ components:
       required: true
       example: 21
       description: 모집할 인원 수
+    club_id:
+      name: club_id
+      in: path
+      required: true
+      example: 1
+      description: club_id
+
+  schemas:
+    GetClub:
+      type: object
+      readOnly: true
+      properties:
+        main_profile:
+          type: string
+          format: url
+          example: https://image.com
+        sub_profile:
+          type: string
+          format: url
+          example: https://image.com
+        name:
+          type: string
+          example: 동네축구FC
+        description:
+          type: string
+          example: 안녕하세요 설명입니다.
+        sns:
+          type: string
+          format: url
+          example: https://instagram.com
+        area:
+          type: string
+          example: 서울
+        cycle:
+          type: string
+          example: 1주일에 1번
+        gender:
+          type: string
+          example: 혼성
+    ToggleApplicant:
+      type: object
+      readOnly: true
+      properties:
+        is_open:
+          type: boolean
+          example: true
+    GetClubApplicant:
+      type: object
+      readOnly: true
+      properties:
+        is_open:
+          type: boolean
+          example: true
+        count:
+          type: integer
+          example: 21
 
   responses:
     CredentialsNotFoundException:
