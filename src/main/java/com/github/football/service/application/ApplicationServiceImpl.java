@@ -9,10 +9,7 @@ import com.github.football.entity.club.Club;
 import com.github.football.entity.club.ClubRepository;
 import com.github.football.entity.user.User;
 import com.github.football.entity.user.UserRepository;
-import com.github.football.exception.type.AlreadyJoinedClubException;
-import com.github.football.exception.type.ApplicationNotAllowedException;
-import com.github.football.exception.type.ClubNotFoundException;
-import com.github.football.exception.type.CredentialsNotFoundException;
+import com.github.football.exception.type.*;
 import com.github.football.security.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -40,6 +37,9 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         if(clubApplicant.getIsOpen() == false)
             throw new ApplicationNotAllowedException();
+
+        if(applicationRepository.findById(new ApplicationId(user, clubApplicant)).isPresent())
+            throw new ApplicationExistsException();
 
         applicationRepository.save(
                 Application.builder()
