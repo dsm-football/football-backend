@@ -153,6 +153,8 @@ paths:
       tags:
         - application
       summary: "동호회원 모집 등록"
+      parameters:
+        - $ref: '#/components/parameters/authorization'
       requestBody:
         content:
           application/json:
@@ -171,6 +173,23 @@ paths:
           $ref: '#/components/responses/CredentialsNotFoundException'
         404:
           $ref: '#/components/responses/ClubNotFoundException'
+    get:
+      tags:
+        - application
+      summary: "동호회원 모집 신청 목록 가져오기"
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetApplication'
+        401:
+          $ref: '#/components/responses/CredentialsNotFoundException'
+        403:
+          $ref: '#/components/responses/ClubForbiddenException'
 
 components:
   parameters:
@@ -247,6 +266,27 @@ components:
       description: club_id
 
   schemas:
+    GetApplication:
+      type: array
+      readOnly: true
+      items:
+        properties:
+          name:
+            type: string
+            example: 손채건
+          area:
+            type: string
+            example: 대전
+          age:
+            type: integer
+            example: 18
+          gender:
+            type: string
+            example: 남자
+          profile:
+            type: string
+            format: url
+            example: https://image.com
     GetClub:
       type: object
       readOnly: true
