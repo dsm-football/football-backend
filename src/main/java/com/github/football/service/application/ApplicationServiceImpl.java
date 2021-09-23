@@ -1,5 +1,6 @@
 package com.github.football.service.application;
 
+import com.github.football.dto.application.request.AcceptApplicationRequest;
 import com.github.football.dto.application.request.PostApplicationRequest;
 import com.github.football.dto.application.response.GetApplicationResponse;
 import com.github.football.entity.application.Application;
@@ -9,7 +10,6 @@ import com.github.football.entity.application.ClubApplicantRepository;
 import com.github.football.entity.application.embedded.ApplicationId;
 import com.github.football.entity.club.Club;
 import com.github.football.entity.club.ClubRepository;
-import com.github.football.entity.code.Area;
 import com.github.football.entity.user.User;
 import com.github.football.entity.user.UserRepository;
 import com.github.football.exception.type.*;
@@ -17,10 +17,7 @@ import com.github.football.security.facade.UserFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
-import java.io.FileOutputStream;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -83,5 +80,29 @@ public class ApplicationServiceImpl implements ApplicationService {
                     .build();
             return response;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public void acceptApplication(AcceptApplicationRequest request) {
+        User user = userRepository.findByEmail(UserFacade.getEmail())
+                .orElseThrow(CredentialsNotFoundException::new);
+
+        Club club = clubRepository.findById(user.getClub().getId())
+                .orElseThrow(ClubNotFoundException::new);
+
+        if(user.getClub_executive() == null)
+            throw new ClubForbiddenException();
+
+        User applicant = userRepository.findById(request.userId)
+                .orElseThrow(UserNotFoundException::new);
+
+        ClubApplicant clubApplicant = clubApplicantRepository.findById(club.getId())
+                .orElseThrow(ClubApplicantNotFoundException::new);
+
+        Application application = applicationRepository.findById(new ApplicationId(applicant, clubApplicant))
+                .orElseThrow(ApplicationNotFoundException::new);
+
+        applicant.accept(club);
+        applicationRepository.delete(application);
     }
 }
