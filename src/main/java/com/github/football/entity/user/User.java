@@ -106,4 +106,8 @@ public class User implements UserDetails {
         this.club = club;
         this.club_executive = club;
     }
+
+    public void accept(Club club) {
+        this.club = club;
+    }
 }
