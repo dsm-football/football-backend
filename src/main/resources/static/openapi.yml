@@ -190,21 +190,30 @@ paths:
           $ref: '#/components/responses/CredentialsNotFoundException'
         403:
           $ref: '#/components/responses/ClubForbiddenException'
+  '/application/{user_id}':
     put:
       tags:
         - application
       summary: "가입 신청 수락"
       parameters:
         - $ref: '#/components/parameters/authorization'
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              writeOnly: true
-              properties:
-                user_id:
-                  $ref: '#/components/parameters/user_id'
+        - $ref: '#/components/parameters/user_id'
+      responses:
+        204:
+          description: No Content
+        401:
+          $ref: '#/components/responses/CredentialsNotFoundException'
+        403:
+          $ref: '#/components/responses/ClubForbiddenException'
+        404:
+          $ref: '#/components/responses/ApplicationNotFoundException'
+    delete:
+      tags:
+        - application
+      summary: "가입 신청 거절"
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+        - $ref: '#/components/parameters/user_id'
       responses:
         204:
           description: No Content
