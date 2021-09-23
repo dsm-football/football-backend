@@ -190,6 +190,30 @@ paths:
           $ref: '#/components/responses/CredentialsNotFoundException'
         403:
           $ref: '#/components/responses/ClubForbiddenException'
+    put:
+      tags:
+        - application
+      summary: "가입 신청 수락"
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              writeOnly: true
+              properties:
+                user_id:
+                  $ref: '#/components/parameters/user_id'
+      responses:
+        204:
+          description: No Content
+        401:
+          $ref: '#/components/responses/CredentialsNotFoundException'
+        403:
+          $ref: '#/components/responses/ClubForbiddenException'
+        404:
+          $ref: '#/components/responses/ApplicationNotFoundException'
 
 components:
   parameters:
@@ -264,6 +288,12 @@ components:
       required: true
       example: 1
       description: club_id
+    user_id:
+      name: user_id
+      in: path
+      required: true
+      example: 1
+      description: user_id
 
   schemas:
     GetApplication:
@@ -349,3 +379,5 @@ components:
       description: 모집 중이 아님 또는 동호회에 가입되어 있음
     ClubNotFoundException:
       description: 동호회를 찾을 수 없음
+    ApplicationNotFoundException:
+      description: 모집 신청을 찾을 수 없음
