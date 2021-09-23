@@ -1,10 +1,8 @@
 package com.github.football.controller;
 
-import com.github.football.dto.application.request.AcceptApplicationRequest;
 import com.github.football.dto.application.request.PostApplicationRequest;
 import com.github.football.dto.application.response.GetApplicationResponse;
 import com.github.football.service.application.ApplicationService;
-import io.swagger.models.Response;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,9 +28,15 @@ public class ApplicationController {
         return new ResponseEntity<>(applicationService.getApplication(), HttpStatus.OK);
     }
 
-    @PutMapping
-    public ResponseEntity acceptApplication(@RequestBody AcceptApplicationRequest request) {
-        applicationService.acceptApplication(request);
+    @PutMapping("{user_id}")
+    public ResponseEntity acceptApplication(@PathVariable("user_id") Long userId) {
+        applicationService.acceptApplication(userId);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @DeleteMapping("{user_id}")
+    public ResponseEntity rejectApplication(@PathVariable("user_id") Long userId) {
+        applicationService.rejectApplication(userId);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
