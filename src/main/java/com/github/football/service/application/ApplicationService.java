@@ -1,6 +1,5 @@
 package com.github.football.service.application;
 
-import com.github.football.dto.application.request.AcceptApplicationRequest;
 import com.github.football.dto.application.request.PostApplicationRequest;
 import com.github.football.dto.application.response.GetApplicationResponse;
 
@@ -10,5 +9,6 @@ public interface ApplicationService {
 
     void postApplication(PostApplicationRequest request);
     List<GetApplicationResponse> getApplication();
-    void acceptApplication(AcceptApplicationRequest request);
+    void acceptApplication(Long userId);
+    void rejectApplication(Long userId);
 }
