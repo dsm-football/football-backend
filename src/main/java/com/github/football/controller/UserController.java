@@ -1,5 +1,6 @@
 package com.github.football.controller;
 
+import com.github.football.dto.user.request.GetGoogleTokenByCodeRequest;
 import com.github.football.dto.user.response.LinkResponse;
 import com.github.football.dto.user.response.TokenResponse;
 import com.github.football.service.user.UserService;
@@ -24,7 +25,7 @@ public class UserController {
 
     @PostMapping("auth/google")
     @ApiOperation("구글 code로 access token 발급받기")
-    public ResponseEntity<TokenResponse> getGoogleTokenByCode(@RequestParam("code") String code) {
-        return new ResponseEntity<>(userService.getGoogleTokenByCode(code), HttpStatus.OK);
+    public ResponseEntity<TokenResponse> getGoogleTokenByCode(@RequestBody GetGoogleTokenByCodeRequest request) {
+        return new ResponseEntity<>(userService.getGoogleTokenByCode(request), HttpStatus.OK);
     }
 }

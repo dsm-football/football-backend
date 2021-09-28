@@ -61,10 +61,14 @@ public class User implements UserDetails {
     private Gender gender;
 
     @Builder
-    public User(String email, String profile, String name) {
+    public User(String email, String name, String profile, Integer age, Position position, Area area, Gender gender) {
         this.email = email;
-        this.profile = profile;
         this.name = name;
+        this.profile = profile;
+        this.age = age;
+        this.position = position;
+        this.area = area;
+        this.gender = gender;
     }
 
     @Override
