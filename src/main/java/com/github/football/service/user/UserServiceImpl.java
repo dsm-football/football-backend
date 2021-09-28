@@ -1,9 +1,13 @@
 package com.github.football.service.user;
 
+import com.github.football.dto.user.request.GetGoogleTokenByCodeRequest;
 import com.github.football.dto.user.response.LinkResponse;
 import com.github.football.dto.user.response.TokenResponse;
+import com.github.football.entity.code.*;
 import com.github.football.entity.user.User;
 import com.github.football.entity.user.UserRepository;
+import com.github.football.exception.type.GenderNotFoundException;
+import com.github.football.exception.type.PositionNotFoundException;
 import com.github.football.exception.type.UserNotFoundException;
 import com.github.football.security.jwt.JwtTokenProvider;
 import com.github.football.util.api.client.google.GoogleAuthClient;
@@ -18,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,6 +43,9 @@ public class UserServiceImpl implements UserService {
     private final GoogleInfoClient googleInfoClient;
     private final UserRepository userRepository;
     private final JwtTokenProvider jwtTokenProvider;
+    private final AreaRepository areaRepository;
+    private final PositionRepository positionRepository;
+    private final GenderRepository genderRepository;
 
     @Override
     public LinkResponse getGoogleLink() {
@@ -51,21 +59,35 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TokenResponse getGoogleTokenByCode(String code) {
+    public TokenResponse getGoogleTokenByCode(GetGoogleTokenByCodeRequest request) {
         GoogleTokenResponse response = googleAuthClient.getTokenByCode(
-                new GoogleTokenRequest(URLDecoder.decode(code, StandardCharsets.UTF_8),
+                new GoogleTokenRequest(URLDecoder.decode(request.getCode(), StandardCharsets.UTF_8),
                         googleClientId, googleClientSecret, googleRedirectUri, "authorization_code")
         );
 
         GoogleInfoResponse info = googleInfoClient.getInfo("Bearer" + response.getAccess_token());
         String email = info.getEmail();
 
+        Area area = areaRepository.findByName(request.getArea()).orElseGet(() -> areaRepository.save(
+                Area.builder()
+                        .name(request.getArea())
+                        .build()
+        ));
+        Gender gender = genderRepository.findById(request.getGenderId())
+                .orElseThrow(GenderNotFoundException::new);
+        Position position = positionRepository.findById(request.getPositionId())
+                .orElseThrow(PositionNotFoundException::new);
+
         if(userRepository.findByEmail(email).isEmpty()) {
             userRepository.save(
                     User.builder()
                             .email(email)
                             .profile(info.getPicture())
-                            .name(info.getName())
+                            .name(request.getName())
+                            .age(request.getAge())
+                            .area(area)
+                            .gender(gender)
+                            .position(position)
                             .build()
             );
         }
