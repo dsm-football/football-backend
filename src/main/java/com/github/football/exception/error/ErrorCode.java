@@ -24,7 +24,8 @@ public enum ErrorCode {
     AGE_GROUP_NOT_FOUND(404, "Age group not found"),
     CLUB_NOT_FOUND(404, "Club not found"),
     APPLICATION_NOT_FOUND(404, "Application not found"),
-    CLUB_APPLICANT_NOT_FOUND(404, "Club applicant not found");
+    CLUB_APPLICANT_NOT_FOUND(404, "Club applicant not found"),
+    POSITION_NOT_FOUND(404, "Position not found");
 
     private final int status;
     private final String message;
