@@ -16,6 +16,8 @@ tags:
     description: 동호회 관련 API
   - name: application
     description: 동호회원 모집 관련 API
+  - name: game
+    description: 매칭 관련 API
 
 paths:
   '/users/auth/google':
@@ -37,8 +39,11 @@ paths:
       tags:
         - users
       summary: "구글 code로 access token 발급받기"
-      parameters:
-        - $ref: '#/components/parameters/code'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GetGoogleTokenByCode'
       responses:
         200:
           description: OK
@@ -166,7 +171,7 @@ paths:
                   $ref: '#/components/parameters/club_id'
       responses:
         201:
-         description: CREATED
+          description: CREATED
         400:
           $ref: '#/components/responses/ApplicationNotAllowedException'
         401:
@@ -223,6 +228,29 @@ paths:
           $ref: '#/components/responses/ClubForbiddenException'
         404:
           $ref: '#/components/responses/ApplicationNotFoundException'
+  '/game':
+    post:
+      tags:
+        - game
+      summary: "매칭 등록"
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostGame'
+      responses:
+        201:
+          description: CREATED
+        400:
+          $ref: '#/components/responses/GameExistsException'
+        401:
+          $ref: '#/components/responses/CredentialsNotFoundException'
+        403:
+          $ref: '#/components/responses/ClubForbiddenException'
+        404:
+          $ref: '#/components/responses/ClubNotFoundException'
 
 components:
   parameters:
@@ -233,8 +261,9 @@ components:
       required: true
       example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
     code:
-      in: query
+      in: path
       name: code
+      required: true
       schema:
         type: string
         properties:
@@ -326,6 +355,62 @@ components:
             type: string
             format: url
             example: https://image.com
+    PostGame:
+      type: object
+      readOnly: true
+      properties:
+        game_type:
+          type: integer
+          example: 1
+        area_type:
+          type: integer
+          example: 1
+        date:
+          type: string
+          example: "2019-11-12T16:34:30.388"
+        end_date:
+          type: string
+          example: "2019-11-14"
+        personnel:
+          type: integer
+          example: 11
+        age_type:
+          type: integer
+          example: 1
+        gender_type:
+          type: integer
+          example: 1
+        has_referee:
+          type: boolean
+          example: false
+        longitude:
+          type: number
+          example: 123.22
+        latitude:
+          type: number
+          example: 234.23
+    GetGoogleTokenByCode:
+      type: object
+      readOnly: true
+      properties:
+        code:
+          type: string
+          example: 4%2F0AX4XfWgXlabvB-xUCYpBGUDiy8dlmZ-YokEZh68bHpr4fuCyFGncw7zKxwiqQZSAZ2hu-g
+        name:
+          type: string
+          example: 손채건
+        age:
+          type: integer
+          example: 18
+        position_id:
+          type: integer
+          example: 1
+        gender_id:
+          type: integer
+          example: 1
+        area:
+          type: string
+          example: 대전 서구 내동
     GetClub:
       type: object
       readOnly: true
@@ -376,6 +461,8 @@ components:
           example: 21
 
   responses:
+    GameExistsException:
+      description: 이미 매칭을 등록함
     CredentialsNotFoundException:
       description: 인증 오류
     CodeNotFoundException:
