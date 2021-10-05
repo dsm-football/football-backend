@@ -41,7 +41,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         ClubApplicant clubApplicant = club.getClubApplicant();
 
-        if(clubApplicant.getIsOpen() == false)
+        if(!clubApplicant.getIsOpen())
             throw new ApplicationNotAllowedException();
 
         if(applicationRepository.findById(new ApplicationId(user, clubApplicant)).isPresent())
