@@ -14,6 +14,7 @@ public enum ErrorCode {
     ALREADY_USED_NAME(400, "Already used name"),
     APPLICATION_NOT_ALLOWED(400, "Application not allowed"),
     APPLICATION_EXISTS(400, "Application exists"),
+    GAME_EXISTS(400, "Game exists"),
     EXPIRED_ACCESS_TOKEN(401, "Expired access token"),
     CREDENTIALS_NOT_FOUND(401, "Credentials not found"),
     CLUB_FORBIDDEN(403, "Club forbidden"),
@@ -25,7 +26,8 @@ public enum ErrorCode {
     CLUB_NOT_FOUND(404, "Club not found"),
     APPLICATION_NOT_FOUND(404, "Application not found"),
     CLUB_APPLICANT_NOT_FOUND(404, "Club applicant not found"),
-    POSITION_NOT_FOUND(404, "Position not found");
+    POSITION_NOT_FOUND(404, "Position not found"),
+    GAME_TYPE_NOT_FOUND(404, "Game type not found");
 
     private final int status;
     private final String message;
