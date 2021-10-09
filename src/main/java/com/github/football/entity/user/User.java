@@ -34,8 +34,11 @@ public class User implements UserDetails {
     @Column(length = 150, nullable = false)
     private String profile;
 
-    @Column
+    @Column(nullable = false)
     private Integer age;
+
+    @Column(nullable = false)
+    private Boolean isPro;
 
     @OneToMany(mappedBy = "applicationId.user")
     private List<Application> applications = new ArrayList<>();
@@ -49,23 +52,25 @@ public class User implements UserDetails {
     private Club club_executive;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "position_id")
+    @JoinColumn(name = "position_id", nullable = false)
     private Position position;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "area_id")
+    @JoinColumn(name = "area_id", nullable = false)
     private Area area;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "gender_id")
+    @JoinColumn(name = "gender_id", nullable = false)
     private Gender gender;
 
     @Builder
-    public User(String email, String name, String profile, Integer age, Position position, Area area, Gender gender) {
+    public User(String email, String name, String profile, Integer age, Boolean isPro
+            ,Position position, Area area, Gender gender) {
         this.email = email;
         this.name = name;
         this.profile = profile;
         this.age = age;
+        this.isPro = isPro;
         this.position = position;
         this.area = area;
         this.gender = gender;
