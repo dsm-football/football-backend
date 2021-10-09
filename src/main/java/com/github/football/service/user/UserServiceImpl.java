@@ -85,6 +85,7 @@ public class UserServiceImpl implements UserService {
                             .profile(info.getPicture())
                             .name(request.getName())
                             .age(request.getAge())
+                            .isPro(request.getIsPro())
                             .area(area)
                             .gender(gender)
                             .position(position)
