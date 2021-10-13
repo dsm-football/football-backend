@@ -40,6 +40,9 @@ public class User implements UserDetails {
     @Column(nullable = false)
     private Boolean isPro;
 
+    @Column(length = 200)
+    private String bio;
+
     @OneToMany(mappedBy = "applicationId.user")
     private List<Application> applications = new ArrayList<>();
 
