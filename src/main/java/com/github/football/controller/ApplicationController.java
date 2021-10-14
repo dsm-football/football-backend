@@ -29,14 +29,14 @@ public class ApplicationController {
     }
 
     @PutMapping("{user_id}")
-    public ResponseEntity acceptApplication(@PathVariable("user_id") Long userId) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void acceptApplication(@PathVariable("user_id") Long userId) {
         applicationService.acceptApplication(userId);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("{user_id}")
-    public ResponseEntity rejectApplication(@PathVariable("user_id") Long userId) {
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void rejectApplication(@PathVariable("user_id") Long userId) {
         applicationService.rejectApplication(userId);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 }
