@@ -119,6 +119,13 @@ public class User implements UserDetails {
         this.club_executive = club;
     }
 
+    public void updateProfile(Integer age, Position position, Area area, String bio) {
+        this.age = age;
+        this.position = position;
+        this.area = area;
+        this.bio = bio;
+    }
+
     public void accept(Club club) {
         this.club = club;
     }
