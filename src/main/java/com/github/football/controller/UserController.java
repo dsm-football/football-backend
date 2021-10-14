@@ -18,13 +18,11 @@ public class UserController {
     private final UserService userService;
 
     @GetMapping("auth/google")
-    @ApiOperation("구글 Oauth 로그인 링크 조회")
     public ResponseEntity<LinkResponse> getGoogleLink() {
         return new ResponseEntity<>(userService.getGoogleLink(), HttpStatus.OK);
     }
 
     @PostMapping("auth/google")
-    @ApiOperation("구글 code로 access token 발급받기")
     public ResponseEntity<TokenResponse> getGoogleTokenByCode(@RequestBody GetGoogleTokenByCodeRequest request) {
         return new ResponseEntity<>(userService.getGoogleTokenByCode(request), HttpStatus.OK);
     }
