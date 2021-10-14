@@ -267,6 +267,24 @@ paths:
                 $ref: '#/components/schemas/GetProfile'
         404:
           $ref: '#/components/responses/UserNotFoundException'
+    patch:
+      tags:
+        - profile
+      summary: "프로필 수정하기 API"
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateProfile'
+      responses:
+        204:
+          description: No Content
+        401:
+          $ref: '#/components/responses/CredentialsNotFoundException'
+        404:
+          $ref: '#/components/responses/NotFoundException'
 
 components:
   parameters:
@@ -350,6 +368,586 @@ components:
       description: user_id
 
   schemas:
+    UpdateProfile:
+      type: object
+      readOnly: true
+      properties:
+        area:
+          type: string
+          example: 대전광역시 유성구 장동
+        positopenapi: 3.0.3
+          info:
+            title: Football Service
+            description: Football Service Backend API Specification
+            contact:
+              name: API Support
+              email: thscorjs1002@naver.com
+            version: 0.0.1
+          servers:
+            - url: 'http://3.34.43.216:8080/api'
+              description: production server
+          tags:
+            - name: users
+              description: 유저 관련 API
+            - name: club
+              description: 동호회 관련 API
+            - name: application
+              description: 동호회원 모집 관련 API
+            - name: game
+              description: 매칭 관련 API
+            - name: profile
+              description: 마이페이지 관련 API
+
+          paths:
+            '/users/auth/google':
+              get:
+                tags:
+                  - users
+                summary: "구글 Oauth 로그인 링크 조회"
+                responses:
+                  200:
+                    description: OK
+                    content:
+                      application/json:
+                        schema:
+                          type: object
+                          properties:
+                            link:
+                              example: "https://accounts.google.com/o/oauth2/v2/auth?client_id=436549750929-4pepqro96c8s3sn3a35l84rpeir3brt2.apps.googleusercontent.com&scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&response_type=code&access_type=offline&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fauth%2Fgoogle"
+              post:
+                tags:
+                  - users
+                summary: "구글 code로 access token 발급받기"
+                requestBody:
+                  content:
+                    application/json:
+                      schema:
+                        $ref: '#/components/schemas/GetGoogleTokenByCode'
+                responses:
+                  200:
+                    description: OK
+                    content:
+                      application/json:
+                        schema:
+                          type: object
+                          properties:
+                            access_token:
+                              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
+                            refresh_token:
+                              example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
+            '/club':
+              post:
+                tags:
+                  - club
+                summary: "동호회 개설"
+                parameters:
+                  - $ref: '#/components/parameters/authorization'
+                requestBody:
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        writeOnly: true
+                        properties:
+                          name:
+                            $ref: '#/components/parameters/name'
+                          description:
+                            $ref: '#/components/parameters/description'
+                          main_profile:
+                            $ref: '#/components/parameters/main_profile'
+                          sub_profile:
+                            $ref: '#/components/parameters/sub_profile'
+                          area_code:
+                            $ref: '#/components/parameters/area_code'
+                          cycle_code:
+                            $ref: '#/components/parameters/cycle_code'
+                          gender_code:
+                            $ref: '#/components/parameters/gender_code'
+                          age_group_code:
+                            $ref: '#/components/parameters/age_group_code'
+                responses:
+                  201:
+                    description: Created
+                  400:
+                    $ref: '#/components/responses/AlreadyJoinedClubException'
+                  401:
+                    $ref: '#/components/responses/CredentialsNotFoundException'
+                  404:
+                    $ref: '#/components/responses/CodeNotFoundException'
+            '/club/{club_id}':
+              get:
+                tags:
+                  - club
+                summary: "동호회 상세 정보"
+                parameters:
+                  - $ref: '#/components/parameters/club_id'
+                responses:
+                  200:
+                    description: OK
+                    content:
+                      application/json:
+                        schema:
+                          $ref: '#/components/schemas/GetClub'
+            '/club/applicant':
+              post:
+                tags:
+                  - club
+                summary: "동호회원 모집하기"
+                parameters:
+                  - $ref: '#/components/parameters/authorization'
+                requestBody:
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        writeOnly: true
+                        properties:
+                          count:
+                            $ref: '#/components/parameters/count'
+                responses:
+                  200:
+                    description: OK
+                    content:
+                      application/json:
+                        schema:
+                          $ref: '#/components/schemas/ToggleApplicant'
+                  401:
+                    $ref: '#/components/responses/CredentialsNotFoundException'
+                  403:
+                    $ref: '#/components/responses/ClubForbiddenException'
+              get:
+                tags:
+                  - club
+                summary: "동호회원 모집 확인"
+                parameters:
+                  - $ref: '#/components/parameters/authorization'
+                responses:
+                  200:
+                    description: OK
+                    content:
+                      application/json:
+                        schema:
+                          $ref: '#/components/schemas/GetClubApplicant'
+                  401:
+                    $ref: '#/components/responses/CredentialsNotFoundException'
+                  403:
+                    $ref: '#/components/responses/ClubForbiddenException'
+            '/application':
+              post:
+                tags:
+                  - application
+                summary: "동호회원 모집 등록"
+                parameters:
+                  - $ref: '#/components/parameters/authorization'
+                requestBody:
+                  content:
+                    application/json:
+                      schema:
+                        type: object
+                        writeOnly: true
+                        properties:
+                          club_id:
+                            $ref: '#/components/parameters/club_id'
+                responses:
+                  201:
+                    description: CREATED
+                  400:
+                    $ref: '#/components/responses/ApplicationNotAllowedException'
+                  401:
+                    $ref: '#/components/responses/CredentialsNotFoundException'
+                  404:
+                    $ref: '#/components/responses/ClubNotFoundException'
+              get:
+                tags:
+                  - application
+                summary: "동호회원 모집 신청 목록 가져오기"
+                parameters:
+                  - $ref: '#/components/parameters/authorization'
+                responses:
+                  200:
+                    description: OK
+                    content:
+                      application/json:
+                        schema:
+                          $ref: '#/components/schemas/GetApplication'
+                  401:
+                    $ref: '#/components/responses/CredentialsNotFoundException'
+                  403:
+                    $ref: '#/components/responses/ClubForbiddenException'
+            '/application/{user_id}':
+              put:
+                tags:
+                  - application
+                summary: "가입 신청 수락"
+                parameters:
+                  - $ref: '#/components/parameters/authorization'
+                  - $ref: '#/components/parameters/user_id'
+                responses:
+                  204:
+                    description: No Content
+                  401:
+                    $ref: '#/components/responses/CredentialsNotFoundException'
+                  403:
+                    $ref: '#/components/responses/ClubForbiddenException'
+                  404:
+                    $ref: '#/components/responses/ApplicationNotFoundException'
+              delete:
+                tags:
+                  - application
+                summary: "가입 신청 거절"
+                parameters:
+                  - $ref: '#/components/parameters/authorization'
+                  - $ref: '#/components/parameters/user_id'
+                responses:
+                  204:
+                    description: No Content
+                  401:
+                    $ref: '#/components/responses/CredentialsNotFoundException'
+                  403:
+                    $ref: '#/components/responses/ClubForbiddenException'
+                  404:
+                    $ref: '#/components/responses/ApplicationNotFoundException'
+            '/game':
+              post:
+                tags:
+                  - game
+                summary: "매칭 등록"
+                parameters:
+                  - $ref: '#/components/parameters/authorization'
+                requestBody:
+                  content:
+                    application/json:
+                      schema:
+                        $ref: '#/components/schemas/PostGame'
+                responses:
+                  201:
+                    description: CREATED
+                  400:
+                    $ref: '#/components/responses/GameExistsException'
+                  401:
+                    $ref: '#/components/responses/CredentialsNotFoundException'
+                  403:
+                    $ref: '#/components/responses/ClubForbiddenException'
+                  404:
+                    $ref: '#/components/responses/ClubNotFoundException'
+            '/profile':
+              get:
+                tags:
+                  - profile
+                summary: "프로필 가져오기 API"
+                responses:
+                  200:
+                    description: OK
+                    content:
+                      application/json:
+                        schema:
+                          $ref: '#/components/schemas/GetProfile'
+                  404:
+                    $ref: '#/components/responses/UserNotFoundException'
+              patch:
+                tags:
+                  - profile
+                summary: "프로필 수정하기 API"
+                parameters:
+                  - $ref: '#/components/parameters/authorization'
+                requestBody:
+                  content:
+                    application/json:
+                      schema:
+                        $ref: '#/components/schemas/UpdateProfile'
+                responses:
+                  204:
+                    description: No Content
+                  401:
+                    $ref: '#/components/responses/CredentialsNotFoundException'
+                  404:
+                    $ref: '#/components/responses/NotFoundException'
+
+          components:
+            parameters:
+              authorization:
+                name: Authorization
+                in: header
+                description: Authorization Bearer Header
+                required: true
+                example: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
+              code:
+                in: path
+                name: code
+                required: true
+                schema:
+                  type: string
+                  properties:
+                    code:
+                      description: "구글에서 받은 code"
+                      example: "4%2F0AX4XfWiSdMoZzQlu4Rv0P0LieBeFXyp72u321aQWqbFJIbB8nVwdqipXr03o-nbEYiItj1-gw"
+              name:
+                name: name
+                in: path
+                required: true
+                example: FC동네축구
+              description:
+                name: description
+                in: path
+                required: true
+                example: 동네축구 동호회입니다 ㅎㅎ
+              main_profile:
+                name: main_profile
+                in: path
+                required: true
+                example: profile.com
+              sub_profile:
+                name: sub_profile
+                in: path
+                required: true
+                example: sub-profile.com
+              area_code:
+                name: area_code
+                in: path
+                required: true
+                example: 1
+                description: notion 더미데이터 참고
+              cycle_code:
+                name: cycle_code
+                in: path
+                required: true
+                example: 1
+                description: notion 더미데이터 참고
+              gender_code:
+                name: gender_code
+                in: path
+                required: true
+                example: 1
+                description: notion 더미데이터 참고
+              age_group_code:
+                name: age_group_code
+                in: path
+                required: true
+                example: 1
+                description: notion 더미데이터 참고
+              count:
+                name: count
+                in: path
+                required: true
+                example: 21
+                description: 모집할 인원 수
+              club_id:
+                name: club_id
+                in: path
+                required: true
+                example: 1
+                description: club_id
+              user_id:
+                name: user_id
+                in: path
+                required: true
+                example: 1
+                description: user_id
+
+            schemas:
+              UpdateProfile:
+                type: object
+                readOnly: true
+                properties:
+                  area:
+                    type: string
+                    example: 대전광역시 유성구 장동
+                  position_id:
+                    type: integer
+                    example: 1
+                  age:
+                    type: integer
+                    example: 18
+                  bio:
+                    type: string
+                    example: ㅁㄴㅇㄹㅁㄴㅇㄹ
+              GetApplication:
+                type: array
+                readOnly: true
+                items:
+                  properties:
+                    name:
+                      type: string
+                      example: 손채건
+                    area:
+                      type: string
+                      example: 대전
+                    age:
+                      type: integer
+                      example: 18
+                    gender:
+                      type: string
+                      example: 남자
+                    profile:
+                      type: string
+                      format: url
+                      example: https://image.com
+              GetProfile:
+                type: object
+                readOnly: true
+                properties:
+                  profile:
+                    type: string
+                    example: image.com
+                  is_pro:
+                    type: boolean
+                    example: true
+                  email:
+                    type: string
+                    example: thscorjs1002@naver.com
+                  club:
+                    type: string
+                    example: 축구한판FC
+                  position:
+                    type: string
+                    example: 공격수
+                  area:
+                    type: string
+                    example: 대전 서구 내동
+                  age:
+                    type: integer
+                    example: 18
+                  bio:
+                    type: string
+                    example: 열심히 하겠습니다
+              PostGame:
+                type: object
+                readOnly: true
+                properties:
+                  game_type:
+                    type: integer
+                    example: 1
+                  area_type:
+                    type: integer
+                    example: 1
+                  date:
+                    type: string
+                    example: "2019-11-12T16:34:30.388"
+                  end_date:
+                    type: string
+                    example: "2019-11-14"
+                  personnel:
+                    type: integer
+                    example: 11
+                  age_type:
+                    type: integer
+                    example: 1
+                  gender_type:
+                    type: integer
+                    example: 1
+                  has_referee:
+                    type: boolean
+                    example: false
+                  longitude:
+                    type: number
+                    example: 123.22
+                  latitude:
+                    type: number
+                    example: 234.23
+              GetGoogleTokenByCode:
+                type: object
+                readOnly: true
+                properties:
+                  code:
+                    type: string
+                    example: 4%2F0AX4XfWgXlabvB-xUCYpBGUDiy8dlmZ-YokEZh68bHpr4fuCyFGncw7zKxwiqQZSAZ2hu-g
+                  name:
+                    type: string
+                    example: 손채건
+                  age:
+                    type: integer
+                    example: 18
+                  is_pro:
+                    type: boolean
+                    example: true
+                  position_id:
+                    type: integer
+                    example: 1
+                  gender_id:
+                    type: integer
+                    example: 1
+                  area:
+                    type: string
+                    example: 대전 서구 내동
+              GetClub:
+                type: object
+                readOnly: true
+                properties:
+                  main_profile:
+                    type: string
+                    format: url
+                    example: https://image.com
+                  sub_profile:
+                    type: string
+                    format: url
+                    example: https://image.com
+                  name:
+                    type: string
+                    example: 동네축구FC
+                  description:
+                    type: string
+                    example: 안녕하세요 설명입니다.
+                  sns:
+                    type: string
+                    format: url
+                    example: https://instagram.com
+                  area:
+                    type: string
+                    example: 서울
+                  cycle:
+                    type: string
+                    example: 1주일에 1번
+                  gender:
+                    type: string
+                    example: 혼성
+              ToggleApplicant:
+                type: object
+                readOnly: true
+                properties:
+                  is_open:
+                    type: boolean
+                    example: true
+              GetClubApplicant:
+                type: object
+                readOnly: true
+                properties:
+                  is_open:
+                    type: boolean
+                    example: true
+                  count:
+                    type: integer
+                    example: 21
+
+            responses:
+              GameExistsException:
+                description: 이미 매칭을 등록함
+              CredentialsNotFoundException:
+                description: 인증 오류
+              CodeNotFoundException:
+                description: 코드를 찾을 수 없음
+              AlreadyJoinedClubException:
+                description: 이미 동호회에 가입되어있음
+              ClubForbiddenException:
+                description: 동호회 관리자가 아님
+              ApplicationNotAllowedException:
+                description: 모집 중이 아님 또는 동호회에 가입되어 있음
+              ClubNotFoundException:
+                description: 동호회를 찾을 수 없음
+              ApplicationNotFoundException:
+                description: 모집 신청을 찾을 수 없음
+              UserNotFoundException:
+                description: 유저를 찾을 수 없음
+              NotFoundException:
+                description: id를 찾을 수 없음
+          ion_id:
+          type: integer
+          example: 1
+        age:
+          type: integer
+          example: 18
+        bio:
+          type: string
+          example: ㅁㄴㅇㄹㅁㄴㅇㄹ
     GetApplication:
       type: array
       readOnly: true
@@ -526,3 +1124,5 @@ components:
       description: 모집 신청을 찾을 수 없음
     UserNotFoundException:
       description: 유저를 찾을 수 없음
+    NotFoundException:
+      description: id를 찾을 수 없음
