@@ -482,6 +482,9 @@ components:
         is_pro:
           type: boolean
           example: true
+        bio:
+          type: string
+          example: ㅈㄴ 잘합니다 ㅎㅎ
         position_id:
           type: integer
           example: 1
