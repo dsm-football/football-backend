@@ -89,6 +89,7 @@ public class UserServiceImpl implements UserService {
                             .area(area)
                             .gender(gender)
                             .position(position)
+                            .bio(request.getBio())
                             .build()
             );
         }

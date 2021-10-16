@@ -67,13 +67,14 @@ public class User implements UserDetails {
     private Gender gender;
 
     @Builder
-    public User(String email, String name, String profile, Integer age, Boolean isPro
-            ,Position position, Area area, Gender gender) {
+    public User(String email, String name, String profile, Integer age, Boolean isPro, String bio,
+            Position position, Area area, Gender gender) {
         this.email = email;
         this.name = name;
         this.profile = profile;
         this.age = age;
         this.isPro = isPro;
+        this.bio = bio;
         this.position = position;
         this.area = area;
         this.gender = gender;
