@@ -14,4 +14,5 @@ public class GetGoogleTokenByCodeRequest {
     private Integer positionId;
     private Integer genderId;
     private String area;
+    private String bio;
 }
