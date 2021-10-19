@@ -43,6 +43,9 @@ public class User implements UserDetails {
     @Column(length = 200)
     private String bio;
 
+    @Column
+    private Integer clubBackNum;
+
     @OneToMany(mappedBy = "applicationId.user")
     private List<Application> applications = new ArrayList<>();
 

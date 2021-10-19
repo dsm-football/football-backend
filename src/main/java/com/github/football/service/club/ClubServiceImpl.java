@@ -1,5 +1,6 @@
 package com.github.football.service.club;
 
+import com.github.football.dto.club.request.GetMemberListResponse;
 import com.github.football.dto.club.request.PostClubRequest;
 import com.github.football.dto.club.request.ToggleApplicantRequest;
 import com.github.football.dto.club.response.GetClubApplicantResponse;
@@ -21,6 +22,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -123,5 +127,29 @@ public class ClubServiceImpl implements ClubService {
 
         ClubApplicant clubApplicant = user.getClub().getClubApplicant();
         return new GetClubApplicantResponse(clubApplicant.getIsOpen(), clubApplicant.getCount());
+    }
+
+    @Override
+    public List<GetMemberListResponse> getMemberList(Long id) {
+        Club club = clubRepository.findById(id)
+                .orElseThrow(ClubNotFoundException::new);
+
+        return club.getUsers().stream().map(user -> {
+
+            Integer clubBackNum = Optional.ofNullable(user.getClubBackNum())
+                    .orElse(null);
+
+            GetMemberListResponse response;
+            response = GetMemberListResponse.builder()
+                    .age(user.getAge())
+                    .clubBackNum(clubBackNum)
+                    .area(user.getArea().getName())
+                    .position(user.getPosition().getType())
+                    .profile(user.getProfile())
+                    .name(user.getName())
+                    .gender(user.getGender().getName())
+                    .build();
+            return response;
+        }).collect(Collectors.toList());
     }
 }
