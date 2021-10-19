@@ -8,7 +8,6 @@ import com.github.football.entity.user.User;
 import com.github.football.entity.user.UserRepository;
 import com.github.football.exception.type.GenderNotFoundException;
 import com.github.football.exception.type.PositionNotFoundException;
-import com.github.football.exception.type.UserNotFoundException;
 import com.github.football.security.jwt.JwtTokenProvider;
 import com.github.football.util.api.client.google.GoogleAuthClient;
 import com.github.football.util.api.client.google.GoogleInfoClient;
@@ -22,7 +21,6 @@ import org.springframework.stereotype.Service;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
