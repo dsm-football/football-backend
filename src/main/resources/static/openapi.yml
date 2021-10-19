@@ -7,7 +7,7 @@ info:
     email: thscorjs1002@naver.com
   version: 0.0.1
 servers:
-  - url: 'http://3.34.43.216:8080/api'
+  - url: 'http://13.124.222.2:8080/api'
     description: production server
 tags:
   - name: users
@@ -111,6 +111,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/GetClub'
+        404:
+          $ref: '#/components/responses/ClubNotFoundException'
+  '/club/{club_id}/member':
+    get:
+      tags:
+        - club
+      summary: "동호회원 목록 가져오기"
+      parameters:
+        - $ref: '#/components/parameters/club_id'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetMemberList'
+        404:
+          $ref: '#/components/responses/ClubNotFoundException'
   '/club/applicant':
     post:
       tags:
@@ -383,6 +401,32 @@ components:
         bio:
           type: string
           example: 열심히 하겠씁니다!!
+    GetMemberList:
+      type: array
+      readOnly: true
+      items:
+        properties:
+          profile:
+            type: string
+            example: image.com
+          name:
+            type: string
+            example: 손채건
+          area:
+            type: string
+            example: 대전
+          age:
+            type: integer
+            example: 18
+          gender:
+            type: string
+            example: 남자
+          position:
+            type: string
+            example: 공격수
+          club_back_num:
+            type: integer
+            example: 7
     GetApplication:
       type: array
       readOnly: true
