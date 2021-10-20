@@ -36,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/users/auth/google").permitAll()
                 .antMatchers(HttpMethod.GET, "/club/{id}").permitAll()
                 .antMatchers(HttpMethod.GET, "/profile/{id}").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .anyRequest().authenticated()
                 .and().apply(new FilterConfigure(jwtTokenProvider, exceptionHandlerFilter, requestLogger));
     }
