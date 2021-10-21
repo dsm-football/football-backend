@@ -1,6 +1,7 @@
 package com.github.football.service.club;
 
 import com.github.football.dto.club.request.GetMemberListResponse;
+import com.github.football.dto.club.request.KickMemberRequest;
 import com.github.football.dto.club.request.PostClubRequest;
 import com.github.football.dto.club.request.ToggleApplicantRequest;
 import com.github.football.dto.club.response.GetClubApplicantResponse;
@@ -151,5 +152,20 @@ public class ClubServiceImpl implements ClubService {
                     .build();
             return response;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    @Transactional
+    public void kickMember(KickMemberRequest request) {
+        User user = userRepository.findByEmail(UserFacade.getEmail())
+                .orElseThrow(CredentialsNotFoundException::new);
+        if (user.getClub_executive() == null)
+            throw new ClubForbiddenException();
+
+        User member = userRepository.findById(request.getUserId())
+                .orElseThrow(UserNotFoundException::new);
+        if(user.getClub() != member.getClub() || member.getClub_executive() != null)
+            throw new KickNotAllowedException();
+        member.kicked();
     }
 }
