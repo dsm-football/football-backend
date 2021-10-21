@@ -173,6 +173,31 @@ paths:
           $ref: '#/components/responses/CredentialsNotFoundException'
         403:
           $ref: '#/components/responses/ClubForbiddenException'
+  '/club/kick':
+    patch:
+      tags:
+        - club
+      summary: "동호회원 퇴출"
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              writeOnly: true
+              properties:
+                user_id:
+                  $ref: '#/components/parameters/user_id'
+      responses:
+        204:
+          description: No Content
+        400:
+          $ref: '#/components/responses/KickNotAllowedException'
+        403:
+          $ref: '#/components/responses/ClubForbiddenException'
+        404:
+          $ref: '#/components/responses/UserNotFoundException'
   '/application':
     post:
       tags:
@@ -607,3 +632,5 @@ components:
       description: 유저를 찾을 수 없음
     NotFoundException:
       description: 찾을 수 없음
+    KickNotAllowedException:
+      description: 퇴출할 수 없음

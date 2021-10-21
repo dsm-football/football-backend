@@ -1,6 +1,7 @@
 package com.github.football.controller;
 
 import com.github.football.dto.club.request.GetMemberListResponse;
+import com.github.football.dto.club.request.KickMemberRequest;
 import com.github.football.dto.club.request.PostClubRequest;
 import com.github.football.dto.club.request.ToggleApplicantRequest;
 import com.github.football.dto.club.response.GetClubApplicantResponse;
@@ -37,13 +38,19 @@ public class ClubController {
         return new ResponseEntity<>(clubService.getMemberList(id), HttpStatus.OK);
     }
 
-    @PostMapping("/applicant")
+    @PostMapping("applicant")
     public ResponseEntity<ToggleApplicantResponse> toggleApplicant(@RequestBody ToggleApplicantRequest request) {
         return new ResponseEntity<>(clubService.toggleApplicant(request), HttpStatus.OK);
     }
 
-    @GetMapping("/applicant")
+    @GetMapping("applicant")
     public ResponseEntity<GetClubApplicantResponse> getClubApplicant() {
         return new ResponseEntity<>(clubService.getClubApplicant(), HttpStatus.OK);
+    }
+
+    @PatchMapping("kick")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void kickMember(@RequestBody KickMemberRequest request) {
+        clubService.kickMember(request);
     }
 }
