@@ -1,6 +1,7 @@
 package com.github.football.service.club;
 
 import com.github.football.dto.club.request.GetMemberListResponse;
+import com.github.football.dto.club.request.KickMemberRequest;
 import com.github.football.dto.club.request.PostClubRequest;
 import com.github.football.dto.club.request.ToggleApplicantRequest;
 import com.github.football.dto.club.response.GetClubApplicantResponse;
@@ -16,4 +17,5 @@ public interface ClubService {
     ToggleApplicantResponse toggleApplicant(ToggleApplicantRequest request);
     GetClubApplicantResponse getClubApplicant();
     List<GetMemberListResponse> getMemberList(Long id);
+    void kickMember(KickMemberRequest request);
 }
