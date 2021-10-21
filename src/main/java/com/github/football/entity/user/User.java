@@ -133,4 +133,9 @@ public class User implements UserDetails {
     public void accept(Club club) {
         this.club = club;
     }
+
+    public void kicked() {
+        this.club = null;
+        this.clubBackNum = null;
+    }
 }
