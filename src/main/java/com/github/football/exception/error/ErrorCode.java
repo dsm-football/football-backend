@@ -14,6 +14,7 @@ public enum ErrorCode {
     ALREADY_USED_NAME(400, "Already used name"),
     APPLICATION_NOT_ALLOWED(400, "Application not allowed"),
     KICK_NOT_ALLOWED(400, "Kick not allowed"),
+    MODIFY_NOT_ALLOWED(400, "Modify not allowed"),
     APPLICATION_EXISTS(400, "Application exists"),
     GAME_EXISTS(400, "Game exists"),
     EXPIRED_ACCESS_TOKEN(401, "Expired access token"),
