@@ -138,4 +138,8 @@ public class User implements UserDetails {
         this.club = null;
         this.clubBackNum = null;
     }
+
+    public void setClubBackNum(Integer clubBackNum) {
+        this.clubBackNum = clubBackNum;
+    }
 }
