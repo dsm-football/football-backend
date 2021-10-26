@@ -198,6 +198,33 @@ paths:
           $ref: '#/components/responses/ClubForbiddenException'
         404:
           $ref: '#/components/responses/UserNotFoundException'
+  '/club/backnum':
+    patch:
+      tags:
+        - club
+      summary: "동호회원 등번호 수정"
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              writeOnly: true
+              properties:
+                user_id:
+                  $ref: '#/components/parameters/user_id'
+                back_num:
+                  $ref: '#/components/parameters/back_num'
+      responses:
+        204:
+          description: No Content
+        400:
+          $ref: '#/components/responses/ModifyNotAllowedException'
+        403:
+          $ref: '#/components/responses/ClubForbiddenException'
+        404:
+          $ref: '#/components/responses/UserNotFoundException'
   '/application':
     post:
       tags:
@@ -409,6 +436,12 @@ components:
       required: true
       example: 1
       description: user_id
+    back_num:
+      name: back_num
+      in: path
+      required: true
+      example: 7
+      description: 등번호
   schemas:
     UpdateProfile:
       type: object
@@ -634,3 +667,5 @@ components:
       description: 찾을 수 없음
     KickNotAllowedException:
       description: 퇴출할 수 없음
+    ModifyNotAllowedException:
+      description: 수정할 수 없음
