@@ -1,6 +1,7 @@
 package com.github.football.controller;
 
-import com.github.football.dto.club.request.GetMemberListResponse;
+import com.github.football.dto.club.request.ModifyBacknumRequest;
+import com.github.football.dto.club.response.GetMemberListResponse;
 import com.github.football.dto.club.request.KickMemberRequest;
 import com.github.football.dto.club.request.PostClubRequest;
 import com.github.football.dto.club.request.ToggleApplicantRequest;
@@ -52,5 +53,11 @@ public class ClubController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void kickMember(@RequestBody KickMemberRequest request) {
         clubService.kickMember(request);
+    }
+
+    @PatchMapping("backnum")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void modifyBacknum(@RequestBody ModifyBacknumRequest request) {
+        clubService.modifyBacknum(request);
     }
 }
