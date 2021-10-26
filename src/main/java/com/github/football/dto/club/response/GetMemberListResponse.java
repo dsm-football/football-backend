@@ -1,4 +1,4 @@
-package com.github.football.dto.club.request;
+package com.github.football.dto.club.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
