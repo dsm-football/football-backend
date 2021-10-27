@@ -1,13 +1,7 @@
 package com.github.football.service.club;
 
-import com.github.football.dto.club.request.ModifyBacknumRequest;
-import com.github.football.dto.club.response.GetMemberListResponse;
-import com.github.football.dto.club.request.KickMemberRequest;
-import com.github.football.dto.club.request.PostClubRequest;
-import com.github.football.dto.club.request.ToggleApplicantRequest;
-import com.github.football.dto.club.response.GetClubApplicantResponse;
-import com.github.football.dto.club.response.GetClubResponse;
-import com.github.football.dto.club.response.ToggleApplicantResponse;
+import com.github.football.dto.club.request.*;
+import com.github.football.dto.club.response.*;
 import com.github.football.entity.application.ClubApplicant;
 import com.github.football.entity.application.ClubApplicantRepository;
 import com.github.football.entity.club.Club;
@@ -183,5 +177,13 @@ public class ClubServiceImpl implements ClubService {
         if(user.getClub() != member.getClub())
             throw new ModifyNotAllowedException();
         member.setClubBackNum(request.getBackNum());
+    }
+
+    @Override
+    public CheckClubNameResponse checkClubName(CheckClubNameRequest request) {
+        Club club = clubRepository.findByName(request.getName())
+                .orElse(null);
+
+        return new CheckClubNameResponse(club != null);
     }
 }

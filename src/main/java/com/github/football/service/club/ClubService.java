@@ -1,13 +1,7 @@
 package com.github.football.service.club;
 
-import com.github.football.dto.club.request.ModifyBacknumRequest;
-import com.github.football.dto.club.response.GetMemberListResponse;
-import com.github.football.dto.club.request.KickMemberRequest;
-import com.github.football.dto.club.request.PostClubRequest;
-import com.github.football.dto.club.request.ToggleApplicantRequest;
-import com.github.football.dto.club.response.GetClubApplicantResponse;
-import com.github.football.dto.club.response.GetClubResponse;
-import com.github.football.dto.club.response.ToggleApplicantResponse;
+import com.github.football.dto.club.request.*;
+import com.github.football.dto.club.response.*;
 
 import java.util.List;
 
@@ -20,4 +14,5 @@ public interface ClubService {
     List<GetMemberListResponse> getMemberList(Long id);
     void kickMember(KickMemberRequest request);
     void modifyBacknum(ModifyBacknumRequest request);
+    CheckClubNameResponse checkClubName(CheckClubNameRequest request);
 }
