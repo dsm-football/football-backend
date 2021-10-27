@@ -1,13 +1,7 @@
 package com.github.football.controller;
 
-import com.github.football.dto.club.request.ModifyBacknumRequest;
-import com.github.football.dto.club.response.GetMemberListResponse;
-import com.github.football.dto.club.request.KickMemberRequest;
-import com.github.football.dto.club.request.PostClubRequest;
-import com.github.football.dto.club.request.ToggleApplicantRequest;
-import com.github.football.dto.club.response.GetClubApplicantResponse;
-import com.github.football.dto.club.response.GetClubResponse;
-import com.github.football.dto.club.response.ToggleApplicantResponse;
+import com.github.football.dto.club.request.*;
+import com.github.football.dto.club.response.*;
 import com.github.football.service.club.ClubService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -59,5 +53,10 @@ public class ClubController {
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void modifyBacknum(@RequestBody ModifyBacknumRequest request) {
         clubService.modifyBacknum(request);
+    }
+
+    @GetMapping("check")
+    public ResponseEntity<CheckClubNameResponse> checkClubName(CheckClubNameRequest request) {
+        return new ResponseEntity<>(clubService.checkClubName(request), HttpStatus.OK);
     }
 }
