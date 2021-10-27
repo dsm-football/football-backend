@@ -225,6 +225,25 @@ paths:
           $ref: '#/components/responses/ClubForbiddenException'
         404:
           $ref: '#/components/responses/UserNotFoundException'
+  '/club/check':
+    get:
+      tags:
+        - club
+      summary: "동호회명 중복 확인"
+      parameters:
+        - in: query
+          name: name
+          schema:
+            type: string
+          description: 동호회명
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CheckClubName'
+
   '/application':
     post:
       tags:
@@ -644,6 +663,13 @@ components:
         count:
           type: integer
           example: 21
+    CheckClubName:
+      type: object
+      readOnly: true
+      properties:
+        is_duplicate:
+          type: boolean
+          example: false
   responses:
     GameExistsException:
       description: 이미 매칭을 등록함
