@@ -3,10 +3,7 @@ package com.github.football.service.profile;
 import com.github.football.dto.profile.request.UpdateProfileRequest;
 import com.github.football.dto.profile.response.GetProfileResponse;
 import com.github.football.entity.club.Club;
-import com.github.football.entity.code.Area;
-import com.github.football.entity.code.AreaRepository;
-import com.github.football.entity.code.Position;
-import com.github.football.entity.code.PositionRepository;
+import com.github.football.entity.code.*;
 import com.github.football.entity.user.User;
 import com.github.football.entity.user.UserRepository;
 import com.github.football.exception.type.AreaNotFoundException;
@@ -44,6 +41,10 @@ public class ProfileServiceImpl implements ProfileService {
                 .map(Position::getType)
                 .orElse(null);
 
+        String genderName = Optional.ofNullable(user.getGender())
+                .map(Gender::getName)
+                .orElse(null);
+
         return GetProfileResponse.builder()
                 .age(user.getAge())
                 .area(areaName)
@@ -53,6 +54,8 @@ public class ProfileServiceImpl implements ProfileService {
                 .position(positionType)
                 .profile(user.getProfile())
                 .bio(user.getBio())
+                .gender(genderName)
+                .name(user.getName())
                 .build();
     }
 
