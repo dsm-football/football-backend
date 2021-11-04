@@ -10,6 +10,8 @@ import java.util.Optional;
 @Builder
 public class GetProfileResponse {
 
+    private String name;
+    private String gender;
     private String profile;
     private Boolean isPro;
     private String email;
