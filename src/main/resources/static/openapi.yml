@@ -529,6 +529,12 @@ components:
       type: object
       readOnly: true
       properties:
+        name:
+          type: string
+          example: 손채건
+        gender:
+          type: string
+          example: 남자
         profile:
           type: string
           example: image.com
