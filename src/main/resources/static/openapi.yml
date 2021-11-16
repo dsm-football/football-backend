@@ -80,8 +80,8 @@ paths:
                   $ref: '#/components/parameters/main_profile'
                 sub_profile:
                   $ref: '#/components/parameters/sub_profile'
-                area_code:
-                  $ref: '#/components/parameters/area_code'
+                area:
+                  $ref: '#/components/parameters/area'
                 cycle_code:
                   $ref: '#/components/parameters/cycle_code'
                 gender_code:
@@ -413,6 +413,11 @@ components:
       in: path
       required: true
       example: sub-profile.com
+    area:
+      name: area
+      in: path
+      required: true
+      example: 서울
     area_code:
       name: area_code
       in: path
@@ -483,6 +488,9 @@ components:
       readOnly: true
       items:
         properties:
+          user_id:
+            type: integer
+            example: 1
           profile:
             type: string
             example: image.com
@@ -566,9 +574,9 @@ components:
         game_type:
           type: integer
           example: 1
-        area_type:
-          type: integer
-          example: 1
+        area:
+          type: string
+          example: 서울
         date:
           type: string
           example: "2019-11-12T16:34:30.388"
