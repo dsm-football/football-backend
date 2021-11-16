@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 public class PostGameRequest {
 
     private Integer gameType;
-    private Integer areaType;
+    private String area;
     private LocalDateTime date;
     private LocalDate endDate;
     private Integer personnel;
