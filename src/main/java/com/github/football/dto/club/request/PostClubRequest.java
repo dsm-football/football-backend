@@ -11,7 +11,7 @@ public class PostClubRequest {
     private String description;
     private String mainProfile;
     private String subProfile;
-    private int areaCode;
+    private String area;
     private int cycleCode;
     private int genderCode;
     private int ageGroupCode;
