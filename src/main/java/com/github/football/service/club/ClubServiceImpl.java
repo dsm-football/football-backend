@@ -47,8 +47,11 @@ public class ClubServiceImpl implements ClubService {
         if (user.getClub() != null)
             throw new AlreadyJoinedClubException();
 
-        Area area = areaRepository.findById(request.getAreaCode())
-                .orElseThrow(AreaNotFoundException::new);
+        Area area = areaRepository.findByName(request.getArea()).orElseGet(() -> areaRepository.save(
+                Area.builder()
+                        .name(request.getArea())
+                        .build()
+        ));
 
         Cycle cycle = cycleRepository.findById(request.getCycleCode())
                 .orElseThrow(CycleNotFoundException::new);
@@ -144,6 +147,7 @@ public class ClubServiceImpl implements ClubService {
                     .profile(user.getProfile())
                     .name(user.getName())
                     .gender(user.getGender().getName())
+                    .userId(user.getId())
                     .build();
             return response;
         }).collect(Collectors.toList());
