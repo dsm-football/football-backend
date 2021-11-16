@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class GetMemberListResponse {
 
+    private Long userId;
     private String profile;
     private String name;
     private String area;
