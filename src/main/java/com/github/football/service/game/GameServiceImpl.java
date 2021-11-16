@@ -44,8 +44,11 @@ public class GameServiceImpl implements GameService {
         GameType gameType = gameTypeRepository.findById(request.getGameType())
                 .orElseThrow(GameTypeNotFoundException::new);
 
-        Area area = areaRepository.findById(request.getAreaType())
-                .orElseThrow(AreaNotFoundException::new);
+        Area area = areaRepository.findByName(request.getArea()).orElseGet(() -> areaRepository.save(
+                Area.builder()
+                        .name(request.getArea())
+                        .build()
+        ));
 
         Gender gender = genderRepository.findById(request.getGenderType())
                 .orElseThrow(GenderNotFoundException::new);
