@@ -342,6 +342,29 @@ paths:
           $ref: '#/components/responses/ClubForbiddenException'
         404:
           $ref: '#/components/responses/ClubNotFoundException'
+  '/game/application':
+    post:
+      tags:
+        - game
+      summary: "매칭 신청"
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostGameApplication'
+      responses:
+        201:
+          description: CREATED
+        400:
+          $ref: '#/components/responses/GameListExistsException'
+        401:
+          $ref: '#/components/responses/CredentialsNotFoundException'
+        403:
+          $ref: '#/components/responses/ClubForbiddenException'
+        404:
+          $ref: '#/components/responses/GameNotFoundException'
   '/profile':
     get:
       tags:
@@ -684,6 +707,13 @@ components:
         is_duplicate:
           type: boolean
           example: false
+    PostGameApplication:
+      type: object
+      readOnly: true
+      properties:
+        game_id:
+          type: integer
+          example: 1
   responses:
     GameExistsException:
       description: 이미 매칭을 등록함
@@ -709,3 +739,7 @@ components:
       description: 퇴출할 수 없음
     ModifyNotAllowedException:
       description: 수정할 수 없음
+    GameNotFoundException:
+      description: 매칭을 찾을 수 없음
+    GameListExistsException:
+      description: 이미 신청함
