@@ -1,6 +1,7 @@
 package com.github.football.entity.game;
 
 import com.github.football.entity.game.embedded.GameListId;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -18,4 +19,10 @@ public class GameList {
 
     @Column(nullable = false)
     private Boolean is_accept;
+
+    @Builder
+    public GameList(GameListId gameListId, Boolean is_accept) {
+        this.gameListId = gameListId;
+        this.is_accept = is_accept;
+    }
 }
