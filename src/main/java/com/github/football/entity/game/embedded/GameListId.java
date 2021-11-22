@@ -4,6 +4,7 @@ import com.github.football.entity.club.Club;
 import com.github.football.entity.game.Game;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -12,6 +13,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @Embeddable
 public class GameListId implements Serializable {
 

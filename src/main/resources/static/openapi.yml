@@ -243,7 +243,24 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/CheckClubName'
-
+  '/club/game/applicant':
+    get:
+      tags:
+        - club
+      summary: "매칭 신청한 동호회 리스트"
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetClubGameApplicant'
+        401:
+          $ref: '#/components/responses/CredentialsNotFoundException'
+        403:
+          $ref: '#/components/responses/ClubForbiddenException'
   '/application':
     post:
       tags:
@@ -556,6 +573,20 @@ components:
             type: string
             format: url
             example: https://image.com
+    GetClubGameApplicant:
+      type: array
+      readOnly: true
+      items:
+        properties:
+          club_profile:
+            type: string
+            example: image.com
+          club_name:
+            type: string
+            example: 동네축구
+          club_id:
+            type: integer
+            example: 1
     GetProfile:
       type: object
       readOnly: true

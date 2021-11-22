@@ -4,6 +4,7 @@ import com.github.football.entity.application.ClubApplicant;
 import com.github.football.entity.code.Area;
 import com.github.football.entity.code.Cycle;
 import com.github.football.entity.code.Gender;
+import com.github.football.entity.game.GameList;
 import com.github.football.entity.user.User;
 import lombok.Builder;
 import lombok.Getter;
@@ -45,10 +46,13 @@ public class Club {
     private User clubHead;
 
     @OneToMany(mappedBy = "club", cascade = CascadeType.PERSIST)
-    private List<User> users = new ArrayList<>();
+    private final List<User> users = new ArrayList<>();
 
     @OneToMany(mappedBy = "club_executive")
-    private List<User> executiveUsers = new ArrayList<>();
+    private final List<User> executiveUsers = new ArrayList<>();
+
+    @OneToMany(mappedBy = "gameListId.club")
+    private final List<GameList> gameLists = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "area_id", nullable = false)

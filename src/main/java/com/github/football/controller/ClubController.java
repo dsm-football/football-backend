@@ -17,6 +17,11 @@ public class ClubController {
 
     private final ClubService clubService;
 
+    @GetMapping("game/applicant")
+    public ResponseEntity<List<GetGameApplicantResponse>> getGameApplicant() {
+        return new ResponseEntity<>(clubService.getGameApplicantResponse(), HttpStatus.OK);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public void postClub(@RequestBody PostClubRequest request) {
