@@ -10,6 +10,9 @@ import com.github.football.entity.club.ClubAgeRepository;
 import com.github.football.entity.club.ClubRepository;
 import com.github.football.entity.club.embedded.ClubAgeGroupId;
 import com.github.football.entity.code.*;
+import com.github.football.entity.game.GameList;
+import com.github.football.entity.game.GameListRepository;
+import com.github.football.entity.game.embedded.GameListId;
 import com.github.football.entity.user.User;
 import com.github.football.entity.user.UserRepository;
 import com.github.football.exception.type.*;
@@ -34,6 +37,7 @@ public class ClubServiceImpl implements ClubService {
     private final GenderRepository genderRepository;
     private final AgeGroupRepository ageGroupRepository;
     private final ClubApplicantRepository clubApplicantRepository;
+    private final GameListRepository gameListRepository;
 
     @Override
     @Transactional
@@ -189,5 +193,28 @@ public class ClubServiceImpl implements ClubService {
                 .orElse(null);
 
         return new CheckClubNameResponse(club != null);
+    }
+
+    @Override
+    public List<GetGameApplicantResponse> getGameApplicantResponse() {
+        User user = userRepository.findByEmail(UserFacade.getEmail())
+                .orElseThrow(CredentialsNotFoundException::new);
+        if(user.getClub_executive() == null)
+            throw new ClubForbiddenException();
+
+        Club club = user.getClub();
+        List<GameList> gameLists = club.getGameLists();
+
+        return gameLists.stream().map(gameList -> {
+            Club gameListClub = gameList.getGameListId().getClub();
+
+           GetGameApplicantResponse response;
+           response = GetGameApplicantResponse.builder()
+                   .clubProfile(gameListClub.getMainProfile())
+                   .clubName(gameListClub.getName())
+                   .clubId(gameListClub.getId())
+                   .build();
+           return response;
+        }).collect(Collectors.toList());
     }
 }
