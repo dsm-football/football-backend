@@ -1,5 +1,7 @@
 package com.github.football.entity.chat;
 
+import com.github.football.entity.user.User;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,8 +19,19 @@ public class Room {
     private Long id;
 
     @OneToMany(mappedBy = "room")
-    private List<Chat> chatList = new ArrayList<>();
+    private final List<Chat> chatList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "roomJoinId.room")
-    private List<RoomJoin> roomJoinList = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "host_user_id", nullable = false)
+    private User hostUser;
+
+    @Builder
+    public Room(User user, User hostUser) {
+        this.user = user;
+        this.hostUser = hostUser;
+    }
 }
