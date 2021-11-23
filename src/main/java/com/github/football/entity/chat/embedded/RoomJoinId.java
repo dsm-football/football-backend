@@ -4,9 +4,7 @@ import com.github.football.entity.chat.Room;
 import com.github.football.entity.club.Club;
 import com.github.football.entity.code.AgeGroup;
 import com.github.football.entity.user.User;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
@@ -16,8 +14,9 @@ import java.io.Serializable;
 
 @EqualsAndHashCode
 @NoArgsConstructor
-@AllArgsConstructor
 @Embeddable
+@Getter
+@AllArgsConstructor
 public class RoomJoinId implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
