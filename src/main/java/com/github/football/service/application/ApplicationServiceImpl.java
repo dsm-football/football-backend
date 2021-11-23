@@ -71,6 +71,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
             GetApplicationResponse response;
             response = GetApplicationResponse.builder()
+                    .userId(applicationUser.getId())
                     .name(applicationUser.getName())
                     .area(applicationUser.getArea().getName())
                     .age(applicationUser.getAge())

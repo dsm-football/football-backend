@@ -12,4 +12,5 @@ public class GetApplicationResponse {
     public Integer age;
     public String gender;
     public String profile;
+    public Long userId;
 }
