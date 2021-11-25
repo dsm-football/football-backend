@@ -432,9 +432,25 @@ paths:
         201:
           description: Created
         400:
-          description: '#/components/responses/ChatRoomExistsException'
+          $ref: '#/components/responses/ChatRoomExistsException'
         401:
           $ref: '#/components/responses/CredentialsNotFoundException'
+  '/chat/history':
+    get:
+      tags:
+        - chat
+      summary: "채팅방 목록 가져오기 API"
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetChatHistory'
+        404:
+          $ref: '#/components/responses/ChatHistoryNotFoundException'
 
 components:
   parameters:
@@ -594,6 +610,20 @@ components:
             type: string
             format: url
             example: https://image.com
+    GetChatHistory:
+      type: array
+      readOnly: true
+      items:
+        properties:
+          profile:
+            type: string
+            example: image.com
+          name:
+            type: string
+            example: 동네축구FC
+          last_message:
+            type: string
+            example: 안녕하세요
     GetClubGameApplicant:
       type: array
       readOnly: true
@@ -804,3 +834,5 @@ components:
       description: 이미 신청함
     ChatRoomExistsException:
       description: 이미 생성된 채팅방임
+    ChatHistoryNotFoundException:
+      description: 채팅 목록을 찾을 수 없음

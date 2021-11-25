@@ -1,6 +1,7 @@
 package com.github.football.entity.user;
 
 import com.github.football.entity.application.Application;
+import com.github.football.entity.chat.Room;
 import com.github.football.entity.club.Club;
 import com.github.football.entity.code.Area;
 import com.github.football.entity.code.Gender;
@@ -47,7 +48,13 @@ public class User implements UserDetails {
     private Integer clubBackNum;
 
     @OneToMany(mappedBy = "applicationId.user")
-    private List<Application> applications = new ArrayList<>();
+    private final List<Application> applications = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user")
+    private final List<Room> rooms = new ArrayList<>();
+
+    @OneToMany(mappedBy = "hostUser")
+    private final List<Room> hostRooms = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "club_id")
