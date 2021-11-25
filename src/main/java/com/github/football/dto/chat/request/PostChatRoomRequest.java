@@ -1,4 +1,4 @@
-package com.github.football.dto.chat;
+package com.github.football.dto.chat.request;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
