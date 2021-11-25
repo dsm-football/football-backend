@@ -7,5 +7,5 @@ import java.util.Optional;
 
 public interface RoomRepository extends CrudRepository<Room, Long> {
 
-    Optional<Room> findByUserAndHostUser(User user, User hostUSer);
+    Optional<Room> findByUserAndHostUser(User user, User hostUser);
 }
