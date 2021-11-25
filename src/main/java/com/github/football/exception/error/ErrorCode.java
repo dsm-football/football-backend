@@ -32,7 +32,8 @@ public enum ErrorCode {
     CLUB_APPLICANT_NOT_FOUND(404, "Club applicant not found"),
     POSITION_NOT_FOUND(404, "Position not found"),
     GAME_TYPE_NOT_FOUND(404, "Game type not found"),
-    GAME_NOT_FOUND(404, "Game not found");
+    GAME_NOT_FOUND(404, "Game not found"),
+    CHAT_HISTORY_NOT_FOUND(404, "Chat history not found");
 
     private final int status;
     private final String message;
