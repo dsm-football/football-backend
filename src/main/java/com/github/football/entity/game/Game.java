@@ -4,6 +4,7 @@ import com.github.football.entity.BaseTimeEntity;
 import com.github.football.entity.club.Club;
 import com.github.football.entity.code.Area;
 import com.github.football.entity.code.GameType;
+import com.github.football.entity.win.Win;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,6 +46,9 @@ public class Game extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "area_id")
     private Area area;
+
+    @OneToOne(mappedBy = "game")
+    private Win win;
 
     @Builder
     public Game(LocalDateTime date, LocalDate end_date, GameType gameType, Club hostClub, Area area) {
