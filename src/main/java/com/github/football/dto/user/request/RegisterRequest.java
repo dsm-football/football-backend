@@ -5,7 +5,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor
-public class GetGoogleTokenByCodeRequest {
+public class RegisterRequest {
 
     private String code;
     private String name;
