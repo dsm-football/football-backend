@@ -1,10 +1,11 @@
 package com.github.football.controller;
 
-import com.github.football.dto.user.request.GetGoogleTokenByCodeRequest;
+import com.github.football.dto.user.request.LoginRequest;
+import com.github.football.dto.user.request.RegisterRequest;
 import com.github.football.dto.user.response.LinkResponse;
+import com.github.football.dto.user.response.LoginResponse;
 import com.github.football.dto.user.response.TokenResponse;
 import com.github.football.service.user.UserService;
-import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,12 @@ public class UserController {
     }
 
     @PostMapping("auth/google")
-    public ResponseEntity<TokenResponse> getGoogleTokenByCode(@RequestBody GetGoogleTokenByCodeRequest request) {
-        return new ResponseEntity<>(userService.getGoogleTokenByCode(request), HttpStatus.OK);
+    public ResponseEntity<TokenResponse> register(@RequestBody RegisterRequest request) {
+        return new ResponseEntity<>(userService.register(request), HttpStatus.OK);
+    }
+
+    @PostMapping("login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest request) {
+        return new ResponseEntity<>(userService.login(request), HttpStatus.OK);
     }
 }
