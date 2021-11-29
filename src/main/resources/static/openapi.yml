@@ -60,6 +60,23 @@ paths:
                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
                   refresh_token:
                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
+  '/users/login':
+    post:
+      tags:
+        - users
+      summary: "로그인"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
   '/club':
     post:
       tags:
@@ -765,6 +782,26 @@ components:
         gender:
           type: string
           example: 혼성
+    LoginResponse:
+      type: object
+      readOnly: true
+      properties:
+        is_fresh:
+          type: boolean
+          example: true
+        access_token:
+          type: string
+          example: null
+        refresh_token:
+          type: string
+          example: null
+    LoginRequest:
+      type: object
+      readOnly: true
+      properties:
+        code:
+          type: string
+          example: 4/0AX4XfWicXrNza5uSYQ04i4utaOa8pl7QsIP7tCUcJEaqJmCPRJJq-kNl_COG59UV2EhKH
     ToggleApplicant:
       type: object
       readOnly: true
