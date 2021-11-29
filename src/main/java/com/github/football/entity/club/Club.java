@@ -6,6 +6,7 @@ import com.github.football.entity.code.Cycle;
 import com.github.football.entity.code.Gender;
 import com.github.football.entity.game.GameList;
 import com.github.football.entity.user.User;
+import com.github.football.entity.win.Win;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -53,6 +54,12 @@ public class Club {
 
     @OneToMany(mappedBy = "gameListId.club")
     private final List<GameList> gameLists = new ArrayList<>();
+
+    @OneToMany(mappedBy = "win_club_id")
+    private final List<Win> win = new ArrayList<>();
+
+    @OneToMany(mappedBy = "lose_club_id")
+    private final List<Win> lose = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "area_id", nullable = false)
