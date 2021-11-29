@@ -1,7 +1,9 @@
 package com.github.football.service.user;
 
-import com.github.football.dto.user.request.GetGoogleTokenByCodeRequest;
+import com.github.football.dto.user.request.LoginRequest;
+import com.github.football.dto.user.request.RegisterRequest;
 import com.github.football.dto.user.response.LinkResponse;
+import com.github.football.dto.user.response.LoginResponse;
 import com.github.football.dto.user.response.TokenResponse;
 import com.github.football.entity.code.*;
 import com.github.football.entity.user.User;
@@ -57,7 +59,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public TokenResponse getGoogleTokenByCode(GetGoogleTokenByCodeRequest request) {
+    public TokenResponse register(RegisterRequest request) {
         GoogleTokenResponse response = googleAuthClient.getTokenByCode(
                 new GoogleTokenRequest(URLDecoder.decode(request.getCode(), StandardCharsets.UTF_8),
                         googleClientId, googleClientSecret, googleRedirectUri, "authorization_code")
@@ -93,6 +95,23 @@ public class UserServiceImpl implements UserService {
         }
 
         return getToken(email);
+    }
+
+    @Override
+    public LoginResponse login(LoginRequest request) {
+        GoogleTokenResponse response = googleAuthClient.getTokenByCode(
+                new GoogleTokenRequest(URLDecoder.decode(request.getCode(), StandardCharsets.UTF_8),
+                        googleClientId, googleClientSecret, googleRedirectUri, "authorization_code")
+        );
+
+        GoogleInfoResponse info = googleInfoClient.getInfo("Bearer" + response.getAccess_token());
+        String email = info.getEmail();
+
+        if(userRepository.findByEmail(email).isEmpty())
+            return new LoginResponse(false, null, null);
+
+        TokenResponse token = getToken(email);
+        return new LoginResponse(true, token.getAccessToken(), token.getRefreshToken());
     }
 
     private TokenResponse getToken(String email) {
