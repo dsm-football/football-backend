@@ -2,14 +2,12 @@ package com.github.football.entity.win;
 
 import com.github.football.entity.club.Club;
 import com.github.football.entity.game.Game;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
 @Getter
-@Builder
 @NoArgsConstructor
 @Entity
 public class Win {
@@ -31,8 +29,4 @@ public class Win {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_id")
     private Game game;
-
-    public Win(Boolean gameResult){
-        this.gameResult = gameResult;
-    }
 }
