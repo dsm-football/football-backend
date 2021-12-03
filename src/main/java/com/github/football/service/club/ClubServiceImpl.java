@@ -12,7 +12,6 @@ import com.github.football.entity.club.embedded.ClubAgeGroupId;
 import com.github.football.entity.code.*;
 import com.github.football.entity.game.GameList;
 import com.github.football.entity.game.GameListRepository;
-import com.github.football.entity.game.embedded.GameListId;
 import com.github.football.entity.user.User;
 import com.github.football.entity.user.UserRepository;
 import com.github.football.exception.type.*;
@@ -216,5 +215,10 @@ public class ClubServiceImpl implements ClubService {
                    .build();
            return response;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<GetClubListResponse> getClubList(GetClubListRequest request) {
+        return clubRepository.getClubsByFilter(request);
     }
 }
