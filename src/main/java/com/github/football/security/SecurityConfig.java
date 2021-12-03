@@ -37,6 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST, "/users/auth/google").permitAll()
                 .antMatchers(HttpMethod.POST, "/users/login").permitAll()
                 .antMatchers(HttpMethod.GET, "/club/{id}").permitAll()
+                .antMatchers(HttpMethod.GET, "/club/list").permitAll()
                 .antMatchers(HttpMethod.GET, "/profile/{id}").permitAll()
                 .antMatchers(HttpMethod.GET, "/**/member").permitAll()
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()

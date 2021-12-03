@@ -29,7 +29,9 @@ public class ChatQuerydslRepository {
         GetChatHistoryResponse getChatHistoryResponse = queryFactory
                 .select(new QGetChatHistoryResponse(
                         club.mainProfile.as("profile"),
-                        club.name.as("name")
+                        club.name.as("name"),
+                        room.hostUser.id.as("hostUserId"),
+                        room.user.id.as("userId")
                 ))
                 .from(room)
                 .innerJoin(room.user.club, club)
@@ -53,7 +55,9 @@ public class ChatQuerydslRepository {
         GetChatHistoryResponse getChatHistoryResponse = queryFactory
                 .select(new QGetChatHistoryResponse(
                         club.mainProfile.as("profile"),
-                        club.name.as("name")
+                        club.name.as("name"),
+                        room.hostUser.id.as("hostUserId"),
+                        room.user.id.as("userId")
                 ))
                 .from(room)
                 .innerJoin(room.user.club, club)

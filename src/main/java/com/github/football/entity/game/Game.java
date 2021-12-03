@@ -1,5 +1,6 @@
 package com.github.football.entity.game;
 
+import com.github.football.dto.game.request.PostResultRequest;
 import com.github.football.entity.BaseTimeEntity;
 import com.github.football.entity.club.Club;
 import com.github.football.entity.code.Area;
@@ -28,7 +29,10 @@ public class Game extends BaseTimeEntity {
     private LocalDate end_date;
 
     @Column
-    private Boolean isWin;
+    private Integer hostScore;
+
+    @Column
+    private Integer participantScore;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "game_type_id")
@@ -45,6 +49,11 @@ public class Game extends BaseTimeEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "area_id")
     private Area area;
+
+    public void setGameScore(Integer hostScore, Integer participantScore) {
+        this.hostScore = hostScore;
+        this.participantScore = participantScore;
+    }
 
     @Builder
     public Game(LocalDateTime date, LocalDate end_date, GameType gameType, Club hostClub, Area area) {

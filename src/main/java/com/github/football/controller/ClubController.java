@@ -17,6 +17,11 @@ public class ClubController {
 
     private final ClubService clubService;
 
+    @GetMapping("list")
+    public List<GetClubListResponse> getClubListResponse(@ModelAttribute GetClubListRequest request) {
+        return clubService.getClubList(request);
+    }
+
     @GetMapping("game/applicant")
     public ResponseEntity<List<GetGameApplicantResponse>> getGameApplicant() {
         return new ResponseEntity<>(clubService.getGameApplicantResponse(), HttpStatus.OK);

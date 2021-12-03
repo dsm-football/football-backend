@@ -66,6 +66,9 @@ public class Club {
     @JoinColumn(name = "gender_id", nullable = false)
     private Gender gender;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "clubAgeGroupId.club")
+    private List<ClubAge> clubAges;
+
     @Builder
     public Club(String mainProfile, String subProfile, String name, String description, User clubHead, Area area, Cycle cycle, Gender gender) {
         this.mainProfile = mainProfile;

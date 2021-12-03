@@ -17,8 +17,8 @@ public class ProfileController {
     private final ProfileService profileService;
     
     @GetMapping("{id}")
-    public ResponseEntity<GetProfileResponse> getProfile(@PathVariable("id") Long id) {
-        return new ResponseEntity<>(profileService.getProfile(id), HttpStatus.OK);
+    public GetProfileResponse getProfile(@PathVariable("id") Long id) {
+        return profileService.getProfile(id);
     }
 
     @PatchMapping

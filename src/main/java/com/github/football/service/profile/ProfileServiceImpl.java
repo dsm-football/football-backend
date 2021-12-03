@@ -29,7 +29,9 @@ public class ProfileServiceImpl implements ProfileService {
     public GetProfileResponse getProfile(Long id) {
         User user = userRepository.findById(id).orElseThrow(UserNotFoundException::new);
 
-        String clubName = Optional.ofNullable(user.getClub())
+        Optional<Club> club = Optional.ofNullable(user.getClub());
+
+        String clubName = club
                 .map(Club::getName)
                 .orElse(null);
 
@@ -45,6 +47,12 @@ public class ProfileServiceImpl implements ProfileService {
                 .map(Gender::getName)
                 .orElse(null);
 
+        Long clubId = club
+                .map(Club::getId)
+                .orElse(null);
+
+        Boolean isClubExecutive = user.getClub_executive() != null;
+
         return GetProfileResponse.builder()
                 .age(user.getAge())
                 .area(areaName)
@@ -56,6 +64,8 @@ public class ProfileServiceImpl implements ProfileService {
                 .bio(user.getBio())
                 .gender(genderName)
                 .name(user.getName())
+                .clubId(clubId)
+                .isClubExecutive(isClubExecutive)
                 .build();
     }
 
