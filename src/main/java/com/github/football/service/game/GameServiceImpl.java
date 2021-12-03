@@ -2,6 +2,7 @@ package com.github.football.service.game;
 
 import com.github.football.dto.game.request.PostGameApplicationRequest;
 import com.github.football.dto.game.request.PostGameRequest;
+import com.github.football.dto.game.request.PostResultRequest;
 import com.github.football.entity.club.Club;
 import com.github.football.entity.club.ClubRepository;
 import com.github.football.entity.code.*;
@@ -103,10 +104,7 @@ public class GameServiceImpl implements GameService {
         Club club = user.getClub();
 
         GameList gameList = gameListRepository.findById(new GameListId(game, club))
-                .orElse(null);
-
-        if(gameList != null)
-            throw new GameListExistException();
+                .orElseThrow(GameListExistException::new);
 
         gameListRepository.save(
                 GameList.builder()
@@ -114,4 +112,23 @@ public class GameServiceImpl implements GameService {
                         .is_accept(false)
                         .build());
     }
+
+    @Override
+    @Transactional
+    public void postResult(PostResultRequest request) {
+        User user = userRepository.findByEmail(UserFacade.getEmail())
+                .orElseThrow(CredentialsNotFoundException::new);
+
+        if(user.getClub_executive() == null)
+            throw new ClubForbiddenException();
+
+        Club club = user.getClub();
+
+        Game game = gameRepository.findByIdAndHostClub(request.getGameId(), club)
+                .orElseThrow(GameNotFoundException::new);
+
+        game.setGameScore(request.getHostScore(), request.getParticipantScore());
+    }
+
+
 }
