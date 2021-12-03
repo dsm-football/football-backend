@@ -280,6 +280,39 @@ paths:
           $ref: '#/components/responses/CredentialsNotFoundException'
         403:
           $ref: '#/components/responses/ClubForbiddenException'
+  '/club/list':
+    get:
+      tags:
+        - club
+      summary: "동호회 리스트"
+      parameters:
+        - in: query
+          name: area_id
+          schema:
+            type: integer
+          description: 지역 아이디
+        - in: query
+          name: is_application
+          schema:
+            type: boolean
+          description: 지금 모집중인가?
+        - in: query
+          name: age_group
+          schema:
+            type: integer
+          description: age_group의 아이디
+        - in: query
+          name: gender_id
+          schema:
+            type: integer
+          description: gender의 아이디
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetClubList'
   '/application':
     post:
       tags:
@@ -401,6 +434,21 @@ paths:
           $ref: '#/components/responses/ClubForbiddenException'
         404:
           $ref: '#/components/responses/GameNotFoundException'
+  '/game/result':
+    post:
+      tags:
+        - game
+      summary: "매칭 결과 등록"
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/PostGameResult'
+      responses:
+        201:
+          description: CREATED
   '/profile':
     get:
       tags:
@@ -577,6 +625,53 @@ components:
         bio:
           type: string
           example: 열심히 하겠씁니다!!
+
+    GetClubList:
+      type: array
+      readOnly: true
+      items:
+        properties:
+          name:
+            type: string
+            example: 대마고FC
+          profile:
+            type: string
+            example: image.com
+          description:
+            type: string
+            example: 설명
+          area:
+            type: string
+            example: 서울
+          age_group:
+            type: string
+            example: 10대
+          gender:
+            type: string
+            example: 남자
+          club_id:
+            type: integer
+            example: 1
+          club_member_cnt:
+            type: integer
+            example: 2
+          club_application_cnt:
+            type: integer
+            example: 12
+    PostGameResult:
+      type: object
+      readOnly: true
+      items:
+        properties:
+          game_id:
+            type: integer
+            example: 1
+          host_score:
+            type: integer
+            example: 10
+          participent_score:
+            type: integer
+            example: 0
     GetMemberList:
       type: array
       readOnly: true
@@ -689,6 +784,12 @@ components:
         bio:
           type: string
           example: 열심히 하겠습니다
+        club_id:
+          type: integer
+          example: 1
+        is_club_executive:
+          type: boolean
+          example: true
     PostGame:
       type: object
       readOnly: true
