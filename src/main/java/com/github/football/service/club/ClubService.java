@@ -16,4 +16,5 @@ public interface ClubService {
     void modifyBacknum(ModifyBacknumRequest request);
     CheckClubNameResponse checkClubName(CheckClubNameRequest request);
     List<GetGameApplicantResponse> getGameApplicantResponse();
+    List<GetClubListResponse> getClubList(GetClubListRequest request);
 }
