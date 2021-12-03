@@ -20,4 +20,6 @@ public class GetProfileResponse {
     private String area;
     private Integer age;
     private String bio;
+    private Long clubId;
+    private Boolean isClubExecutive;
 }
