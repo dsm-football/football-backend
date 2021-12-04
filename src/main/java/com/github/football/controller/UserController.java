@@ -2,6 +2,7 @@ package com.github.football.controller;
 
 import com.github.football.dto.user.request.LoginRequest;
 import com.github.football.dto.user.request.RegisterRequest;
+import com.github.football.dto.user.response.GetUserIdResponse;
 import com.github.football.dto.user.response.LinkResponse;
 import com.github.football.dto.user.response.LoginResponse;
 import com.github.football.dto.user.response.TokenResponse;
@@ -17,6 +18,11 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+
+    @GetMapping("auth")
+    public GetUserIdResponse getUserId() {
+        return  userService.getUserId();
+    }
 
     @GetMapping("auth/google")
     public ResponseEntity<LinkResponse> getGoogleLink() {
