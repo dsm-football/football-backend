@@ -60,6 +60,20 @@ paths:
                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
                   refresh_token:
                     example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ..."
+  '/users/auth':
+    get:
+      tags:
+        - users
+      summary: "유저 아이디 가져오기"
+      parameters:
+        - $ref: '#/components/parameters/authorization'
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserIdResponse'
   '/users/login':
     post:
       tags:
@@ -658,20 +672,26 @@ components:
           club_application_cnt:
             type: integer
             example: 12
+    GetUserIdResponse:
+      type: object
+      readOnly: true
+      properties:
+        user_id:
+          type: integer
+          example: 1
     PostGameResult:
       type: object
       readOnly: true
-      items:
-        properties:
-          game_id:
-            type: integer
-            example: 1
-          host_score:
-            type: integer
-            example: 10
-          participent_score:
-            type: integer
-            example: 0
+      properties:
+        game_id:
+          type: integer
+          example: 1
+        host_score:
+          type: integer
+          example: 10
+        participent_score:
+          type: integer
+          example: 0
     GetMemberList:
       type: array
       readOnly: true
