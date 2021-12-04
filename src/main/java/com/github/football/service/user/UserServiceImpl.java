@@ -2,14 +2,17 @@ package com.github.football.service.user;
 
 import com.github.football.dto.user.request.LoginRequest;
 import com.github.football.dto.user.request.RegisterRequest;
+import com.github.football.dto.user.response.GetUserIdResponse;
 import com.github.football.dto.user.response.LinkResponse;
 import com.github.football.dto.user.response.LoginResponse;
 import com.github.football.dto.user.response.TokenResponse;
 import com.github.football.entity.code.*;
 import com.github.football.entity.user.User;
 import com.github.football.entity.user.UserRepository;
+import com.github.football.exception.type.CredentialsNotFoundException;
 import com.github.football.exception.type.GenderNotFoundException;
 import com.github.football.exception.type.PositionNotFoundException;
+import com.github.football.security.facade.UserFacade;
 import com.github.football.security.jwt.JwtTokenProvider;
 import com.github.football.util.api.client.google.GoogleAuthClient;
 import com.github.football.util.api.client.google.GoogleInfoClient;
@@ -112,6 +115,14 @@ public class UserServiceImpl implements UserService {
 
         TokenResponse token = getToken(email);
         return new LoginResponse(true, token.getAccessToken(), token.getRefreshToken());
+    }
+
+    @Override
+    public GetUserIdResponse getUserId() {
+        User user = userRepository.findByEmail(UserFacade.getEmail())
+                .orElseThrow(CredentialsNotFoundException::new);
+
+        return new GetUserIdResponse(user.getId());
     }
 
     private TokenResponse getToken(String email) {
